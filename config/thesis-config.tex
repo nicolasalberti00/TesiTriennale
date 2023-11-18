@@ -129,9 +129,9 @@
 
 \newcommand{\sectionname}{sezione}
 \addto\captionsitalian{\renewcommand{\figurename}{Figura}
-                       \renewcommand{\tablename}{Tabella}}
+    \renewcommand{\tablename}{Tabella}}
 
-\newcommand{\glsfirstoccur}{\ap{{[g]}}}
+\newcommand{\glsfirstoccur}{\ap{{G}}}
 
 \newcommand{\intro}[1]{\emph{\textsf{#1}}}
 
@@ -164,12 +164,12 @@
 % #2: Nome
 \newenvironment{usecase}[2]{
     \renewcommand{\theusecasecounter}{\usecasename #1}  % this is where the display of
-                                                        % the counter is overwritten/modified
+    % the counter is overwritten/modified
     \refstepcounter{usecasecounter}             % increment counter
     \vspace{10pt}
     \par \noindent                              % start new paragraph
     {\large \textbf{\usecasename #1: #2}}       % display the title before the
-                                                % content of the environment is displayed
+    % content of the environment is displayed
     \medskip
 }{
     \medskip
@@ -188,7 +188,7 @@
     \vspace{10pt}
     \par \noindent  % start new paragraph
     \begin{description}
-}{
+        }{
     \end{description}
     \medskip
 }
