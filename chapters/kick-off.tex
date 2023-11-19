@@ -5,19 +5,76 @@
     gli obiettivi prefissati e i possibili rischi collegati allo sviluppo.}\\
 
 \section{Introduzione al progetto}
+Uno dei micro serivizi offerti dalla piattaforma THRON è quello riguradante la
+conversione delle immagini da un formato ad un altro, scalandole in base alla
+risoluzione desiderata dal cliente. La conversione riguarda molteplici formati,
+e dimensioni, e deve essere essere efefttuata in maniera rapida ed efficiente.
+THRON dispone già di un servizio di conversione immagini, ma si vuole
+sostituirlo con uno nuovo, più effiiciente e manutenibile. \\
+Il progetto di stage è consistito nella realizzazione di un nuovo servizio di
+conversione di immagini in \emph{Go}, utilizzando diverse librerie ed
+applicazioni \emph{\glsfirstoccur\gls{open-source}}, integrandole in un unico servizio
+capace di gestire diversi tipi di immagine.\\
+
+\section{Obiettivi dello stage}
+In questa sezione vengono elencati gli obiettivi da raggiungere durante lo
+stage, suddivisi in tre categorie: obbligatori, desiderabili e opzionali.\\
+Per fare riferimento ai requisiti verranno utilizzate le seguenti notazioni:
+\begin{itemize}
+    \item \textbf{OB}: per i requisiti obbligatori, vincolanti in quanto obiettivo
+          primario richiesto;
+    \item \textbf{DE}: per i requisiti desiderabili, non strettamente necessari
+          ma dal riconoscibile valore aggiunto;
+    \item \textbf{OP}: per i requisiti opzionali, rappresentanti un valore
+          aggiunto ma non necessariamente competitivo.
+\end{itemize}
+Le sigle sopra descritte saranno seguite da un codice identificativo univoco,
+formato da una coppia di numeri, al fine di garantirne l'identificazione.\\
+\subsection*{\emph{Obbligatori}}
+\begin{itemize}
+    \item \textbf{OB1}: realizzazione di un servizio di conversione immagini
+          in \emph{Go} per supportare la migrazione aziendale in ambito
+          \emph{\glsfirstoccur\gls{serverless}};
+    \item \textbf{OB2:} effettuare la conversione seguendo un profilo di
+          conversione recuperato da una tabella \emph{\glsfirstoccur\gls{DynamoDB}}
+    \item \textbf{OB3:} scrivere su una tabella \emph{DynamoDB} il risultato
+          della conversione, i dati specifici della conversione e le eventuali cause
+          di errore;
+    \item \textbf{OB4:} creare una \emph{\glsfirstoccur\gls{dashboard}} su
+          \emph{\glsfirstoccur\gls{CloudWatch}} che permetta di monitorare il numero
+          di errori nel tempo;
+\end{itemize}
+\subsection*{\emph{Desiderabili}}
+
+\subsection*{\emph{Opzionali}}
 
 \section{Analisi preventiva dei rischi}
 
 Durante la fase di analisi iniziale sono stati individuati alcuni possibili rischi a cui si potrà andare incontro.
 Si è quindi proceduto a elaborare delle possibili soluzioni per far fronte a tali rischi.\\
 
-\begin{risk}{Performance del simulatore hardware}
-    \riskdescription{le performance del simulatore hardware e la comunicazione con questo potrebbero risultare lenti o non abbastanza buoni da causare il fallimento dei test}
-    \risksolution{coinvolgimento del responsabile a capo del progetto relativo il simulatore hardware}
-    \label{risk:hardware-simulator}
+\begin{risk}{\emph{Stack} tecnologico:}
+    \riskdescription{le tecnologie utilizzate per lo sviluppo del progetto erano
+        a me nuove. Ciò poteva portare ad un utilizzo non ottimale delle stesse, non
+        rispettando le \emph{best practices} di riferimento, anche su tecnologie
+        individuate in autonomia}
+    \risksolution{è stato previsto un periodo di formazione iniziale, durante il quale ho potuto studiare in maniera autonoma e assieme al tutor aziendale le tecnologie da utilizzare e sperimentarle in un progetto di prova, su cui poi si sarebbe basato il progetto finale}
+    \label{risk:stack-tecnologico}
 \end{risk}
 
-\section{Requisiti e obiettivi}
+\begin{risk}{Fattibilità dei requisiti:}
+    \riskdescription{alcuni dei requisiti risultavano complessi da implementare
+        e non era chiaro se fosse possibile implementarli in maniera completa entro la fine dello
+        stage}
+    \risksolution{è stato deciso con il tutor aziendale di effettuare giornalmente una verifica della situazione, al fine di valutare l'andamento del progetto e decidere quali soluzioni adottare di fronte alle criticità riscontrate}
+    \label{risk:fattibilità}
+\end{risk}
 
-
-\section{Pianificazione}
+\begin{risk}{Ritardi nello sviluppo:}
+    \riskdescription{a causa di attività esterne al progetto (come ad esempio le attività di preparazione dell'infrastruttura), potevano verificarsi ritardi nello sviluppo del progetto}
+    \risksolution{è stato deciso con il tutor aziendale di effettuare una
+        analisi settimanale della situazione ed in caso di criticità è stato
+        previsto un dialogo con il \emph{Software Architect} del team di
+        \emph{backend}, al fine di superare le criticità riscontrate}
+    \label{risk:ritardi-sviluppo}
+\end{risk}
