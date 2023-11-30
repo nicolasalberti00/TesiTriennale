@@ -40,14 +40,22 @@ formato da una coppia di numeri, al fine di garantirne l'identificazione.\\
     \item \textbf{OB3:} scrivere su una tabella \emph{DynamoDB} il risultato
           della conversione, i dati specifici della conversione e le eventuali cause
           di errore;
-    \item \textbf{OB4:} creare una \emph{\glsfirstoccur\gls{dashboard}} su
-          \emph{\glsfirstoccur\gls{CloudWatch}} che permetta di monitorare il numero
-          di errori nel tempo;
 \end{itemize}
 \subsection*{\emph{Desiderabili}}
-
+\begin{itemize}
+    \item \textbf{DE1:} individuare il numero di immagini totali convertite, da
+          rappresentare per cliente, per formato in input e per lo stato della
+          conversione;
+    \item \textbf{DE2:} individuare il tempo di esecuzione minimo, medio e
+          massimo di una conversione, da rappresentare per cliente e per tipo di
+          formato in input;
+\end{itemize}
 \subsection*{\emph{Opzionali}}
-
+\begin{itemize}
+    \item \textbf{OP1:} creare una \emph{\glsfirstoccur\gls{dashboard}} su
+          \emph{\glsfirstoccur\gls{CloudWatch}} che permetta di monitorare il numero
+          di errori nel tempo e gli obiettivi \textbf{DE1} e \textbf{DE2};
+\end{itemize}
 \section{Analisi preventiva dei rischi}
 
 Durante la fase di analisi iniziale sono stati individuati alcuni possibili rischi a cui si potrà andare incontro.

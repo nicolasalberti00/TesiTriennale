@@ -1,0 +1,9 @@
+Conversione di immagini: Questo caso d’uso riguarda la conversione di un’immagine da un formato a un altro. Ad esempio, potrebbe essere necessario convertire un’immagine da JPEG a PNG per motivi di compatibilità o per ridurre le dimensioni del file.
+
+Elaborazione di immagini: Questo caso d’uso potrebbe riguardare l’applicazione di filtri o effetti alle immagini. Ad esempio, potrebbe essere necessario applicare un filtro in bianco e nero o un effetto di sfocatura a un’immagine.
+
+Ridimensionamento di immagini: In questo caso d’uso, l’immagine viene ridimensionata in base a specifiche dimensioni o percentuali. Questo potrebbe essere utile per adattare le immagini a specifiche dimensioni di schermo o risoluzioni.
+
+Archiviazione e recupero di immagini: Questo caso d’uso riguarda l’archiviazione di immagini elaborate in un bucket S3 e il loro recupero quando necessario. Questo è utile per conservare le versioni originali e modificate delle immagini.
+
+Monitoraggio e logging: Questo caso d’uso riguarda la registrazione delle operazioni di elaborazione delle immagini e la visualizzazione di queste informazioni in CloudWatch. Questo può aiutare a identificare e risolvere i problemi che possono sorgere durante l’elaborazione delle immagini.

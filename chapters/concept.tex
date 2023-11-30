@@ -1,78 +1,129 @@
 \chapter{Analisi dei requisiti}
 \label{cap:analisi-requisiti}
 
-\intro{Breve introduzione al capitolo}\\
+\intro{In questo capitolo viene presentata l'analisi dei requisiti effettuata
+    durante lo stage, dove si mostrano le funzionalità e i requisiti individuati, al
+    fine di fornire una visione più chiara del sistema.}\\
+
+\section{Descrizione dell'applicazione}
+Il progetto consiste nel creare un servizio per la
+conversione di vari formati immagine. Il prodotto vuole essere una
+sperimentazione interna per la sostituzione di un servizio interno che svolge
+già lo stesso compito, utilizzando delle tecnologie \emph{cloud-native} e
+\emph{serverless}, al fine di semplificare il flusso della conversione e di
+fornire uno strumento più mantenibile e scalabile rispetto al precedente.\\
+
 
 \section{Casi d'uso}
 
 Per lo studio dei casi di utilizzo del prodotto sono stati creati dei diagrammi.
-I diagrammi dei casi d'uso (in inglese \emph{Use Case Diagram}) sono diagrammi di tipo \gls{uml} dedicati alla descrizione delle funzioni o servizi offerti da un sistema, così come sono percepiti e utilizzati dagli attori che interagiscono col sistema stesso.
-Essendo il progetto finalizzato alla creazione di un tool per l'automazione di un processo, le interazioni da parte dell'utilizzatore devono essere ovviamente ridotte allo stretto necessario. Per questo motivo i diagrammi d'uso risultano semplici e in numero ridotto.
+I diagrammi dei casi d'uso (in inglese \emph{Use Case Diagram}) sono diagrammi di tipo \gls{uml} dedicati
+alla descrizione delle funzioni o servizi offerti da un sistema, così come sono
+percepiti e utilizzati dagli attori che interagiscono col sistema stesso.
+Essendo il progetto finalizzato alla creazione di un servizio che richiede
+un'interazione minima, i diagrammi risultano semplici ed in numero ridotto.
 
-\begin{figure}[!h] 
-    \centering 
-    \includegraphics[width=0.9\columnwidth]{usecase/scenario-principale} 
+\subsection{Descrizione del sistema}
+Di seguito viene rappresentato un diagramma riassuntivo che mostra i casi d'uso
+individuati e le relazioni tra essi.
+\begin{figure}[!h]
+    \centering
+
     \caption{Use Case - UC0: Scenario principale}
 \end{figure}
 
 \begin{usecase}{0}{Scenario principale}
-\usecaseactors{Sviluppatore applicativi}
-\usecasepre{Lo sviluppatore è entrato nel plug-in di simulazione all'interno dell'IDE}
-\usecasedesc{La finestra di simulazione mette a disposizione i comandi per configurare, registrare o eseguire un test}
-\usecasepost{Il sistema è pronto per permettere una nuova interazione}
-\label{uc:scenario-principale}
+    \usecaseactors{Sviluppatore applicativi}
+    \usecasepre{Lo sviluppatore è entrato nel plug-in di simulazione all'interno dell'IDE}
+    \usecasedesc{La finestra di simulazione mette a disposizione i comandi per configurare, registrare o eseguire un test}
+    \usecasepost{Il sistema è pronto per permettere una nuova interazione}
+    \label{uc:scenario-principale}
 \end{usecase}
 
 \section{Tracciamento dei requisiti}
 
-Da un'attenta analisi dei requisiti e degli use case effettuata sul progetto è stata stilata la tabella che traccia i requisiti in rapporto agli use case.\\
-Sono stati individuati diversi tipi di requisiti e si è quindi fatto utilizzo di un codice identificativo per distinguerli.\\
-Il codice dei requisiti è così strutturato R(F/Q/V)(N/D/O) dove:
-\begin{enumerate}
-	\item[R =] requisito
-    \item[F =] funzionale
-    \item[Q =] qualitativo
-    \item[V =] di vincolo
-    \item[N =] obbligatorio (necessario)
-    \item[D =] desiderabile
-    \item[Z =] opzionale
-\end{enumerate}
-Nelle tabelle \ref{tab:requisiti-funzionali}, \ref{tab:requisiti-qualitativi} e \ref{tab:requisiti-vincolo} sono riassunti i requisiti e il loro tracciamento con gli use case delineati in fase di analisi.
+Vengono di seguito presentati i requisiti individuati durante il progetto di
+stage.\\
+Sono stati individuati diversi tipi di requisiti e si è quindi fatto utilizzo di
+un codice identificativo per distinguerli, rappresentato di seguito:
+\begin{itemize}
+    \item \textbf{Requisiti funzionali:} descrivono le funzioni che il sistema
+          deve offrire. Delineano le azioni che il sistema deve eseguire, le
+          risposte attese da determinati input e le dinamiche generali del sistema;
+    \item \textbf{Requisiti qualitativi:} descrivono le caratteristiche che il
+          sistema deve possedere, legati alla qualità e alle prestazioni del sistema;
+    \item \textbf{Requisiti di vincolo:} descrivono i parametri che il sistema
+          deve rispettare durante lo sviluppo e l'implementazione.
+\end{itemize}
+Viene inoltre fatta una classificazione dei requisiti in base alla loro
+priorità.
+
+\subsection{Notazione}
+Ciascun requisito è identificato da un codice univoco, che aderisce alla
+seguente notazione:
+\begin{center}
+    \textbf{R[Priorità][Tipo]-[Codice]}
+\end{center}
+dove:
+\begin{itemize}
+    \item \textbf{Priorità:} può assumere i seguenti valori:
+          \begin{itemize}
+              \item \textbf{O:} requisito obbligatorio;
+              \item \textbf{D:} requisito desiderabile;
+              \item \textbf{Z:} requisito opzionaleo.
+          \end{itemize}
+    \item \textbf{Tipo:} può assumere i seguenti valori:
+          \begin{itemize}
+              \item \textbf{F:} requisito funzionale;
+              \item \textbf{Q:} requisito qualitativo;
+              \item \textbf{V:} requisito di vincolo.
+          \end{itemize}
+    \item \textbf{Codice:} è un codice identificativo univoco del requisito.
+\end{itemize}
+
+Nelle tabelle \ref{tab:requisiti-funzionali}, \ref{tab:requisiti-qualitativi} e
+\ref{tab:requisiti-vincolo} sono riassunti i requisiti e il loro tracciamento
+con i casi d'uso delineati in fase di analisi.
 
 \newpage
 
+\subsection{Requisiti funzionali}
 \begin{table}%
-\caption{Tabella del tracciamento dei requisti funzionali}
-\label{tab:requisiti-funzionali}
-\begin{tabularx}{\textwidth}{lXl}
-\hline\hline
-\textbf{Requisito} & \textbf{Descrizione} & \textbf{Use Case}\\
-\hline
-RFN-1     & L'interfaccia permette di configurare il tipo di sonde del test & UC1 \\
-\hline
-\end{tabularx}
+    \caption{Tabella del tracciamento dei requisti funzionali}
+    \label{tab:requisiti-funzionali}
+    \begin{tabularx}{\textwidth}{lXl}
+        \hline\hline
+        \textbf{Requisito} & \textbf{Descrizione}                         & \textbf{Use Case} \\
+        \hline
+        ROF-1              & Permettere una conversione da formato JPG al
+        formato JPG        & UC1                                                              \\
+        \hline
+    \end{tabularx}
 \end{table}%
 
+\subsection{Requisiti qualitativi}
 \begin{table}%
-\caption{Tabella del tracciamento dei requisiti qualitativi}
-\label{tab:requisiti-qualitativi}
-\begin{tabularx}{\textwidth}{lXl}
-\hline\hline
-\textbf{Requisito} & \textbf{Descrizione} & \textbf{Use Case}\\
-\hline
-RQD-1    & Le prestazioni del simulatore hardware deve garantire la giusta esecuzione dei test e non la generazione di falsi negativi & - \\
-\hline
-\end{tabularx}
+    \caption{Tabella del tracciamento dei requisiti qualitativi}
+    \label{tab:requisiti-qualitativi}
+    \begin{tabularx}{\textwidth}{lXl}
+        \hline\hline
+        \textbf{Requisito}                  & \textbf{Descrizione}                    & \textbf{Use Case} \\
+        \hline
+        RQO-1                               & Il progetto deve essere accompagnato da
+        documentazione tecnica e funzionale & Interno                                                     \\
+        \hline
+    \end{tabularx}
 \end{table}%
 
+\subsection{Requisiti di vincolo}
 \begin{table}%
-\caption{Tabella del tracciamento dei requisiti di vincolo}
-\label{tab:requisiti-vincolo}
-\begin{tabularx}{\textwidth}{lXl}
-\hline\hline
-\textbf{Requisito} & \textbf{Descrizione} & \textbf{Use Case}\\
-\hline
-RVO-1    & La libreria per l'esecuzione dei test automatici deve essere riutilizzabile & - \\
-\hline
-\end{tabularx}
+    \caption{Tabella del tracciamento dei requisiti di vincolo}
+    \label{tab:requisiti-vincolo}
+    \begin{tabularx}{\textwidth}{lXl}
+        \hline\hline
+        \textbf{Requisito} & \textbf{Descrizione}                                                        & \textbf{Use Case} \\
+        \hline
+        RVO-1              & La libreria per l'esecuzione dei test automatici deve essere riutilizzabile & -                 \\
+        \hline
+    \end{tabularx}
 \end{table}%
