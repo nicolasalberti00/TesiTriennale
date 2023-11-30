@@ -21,23 +21,22 @@ I diagrammi dei casi d'uso (in inglese \emph{Use Case Diagram}) sono diagrammi d
 alla descrizione delle funzioni o servizi offerti da un sistema, così come sono
 percepiti e utilizzati dagli attori che interagiscono col sistema stesso.
 Essendo il progetto finalizzato alla creazione di un servizio che richiede
-un'interazione minima, i diagrammi risultano semplici ed in numero ridotto.
+attualmente solo un', i diagrammi risultano semplici ed in numero ridotto.
 
 \subsection{Descrizione del sistema}
 Di seguito viene rappresentato un diagramma riassuntivo che mostra i casi d'uso
 individuati e le relazioni tra essi.
-\begin{figure}[!h]
-    \centering
 
-    \caption{Use Case - UC0: Scenario principale}
-\end{figure}
+\begin{usecase}{1}{Recupero dell'immagine}
+    \usecaseactors{Lambda, Bucket S3 di input delle immagini }
+    \usecasepre{La funzione Lambda è pronta per l'esecuzione e l'immagine da convertire è caricata nel Bucket S3 di input}
+    \usecasedesc{All'interno della Lambda viene effettuata una richiesta con il nome dell'immagine al bucket S3 e viene effettuato il download nella memoria interna della Lambda}
+    \usecasepost{La Lambda ha l'immagine salvata in memoria, al fine di procedere con la conversione}
+    \label{uc:recupero-immagine}
+\end{usecase}
 
-\begin{usecase}{0}{Scenario principale}
-    \usecaseactors{Sviluppatore applicativi}
-    \usecasepre{Lo sviluppatore è entrato nel plug-in di simulazione all'interno dell'IDE}
-    \usecasedesc{La finestra di simulazione mette a disposizione i comandi per configurare, registrare o eseguire un test}
-    \usecasepost{Il sistema è pronto per permettere una nuova interazione}
-    \label{uc:scenario-principale}
+\begin{usecase}{2}{Conversione dell'immagine}
+
 \end{usecase}
 
 \section{Tracciamento dei requisiti}
@@ -93,10 +92,68 @@ con i casi d'uso delineati in fase di analisi.
     \label{tab:requisiti-funzionali}
     \begin{tabularx}{\textwidth}{lXl}
         \hline\hline
-        \textbf{Requisito} & \textbf{Descrizione}                         & \textbf{Use Case} \\
+        \textbf{Requisito} & \textbf{Descrizione}                                            & \textbf{Use Case} \\
         \hline
         ROF-1              & Permettere una conversione da formato JPG al
-        formato JPG        & UC1                                                              \\
+        formato JPG        & UC2
+        \\
+        \hline
+        ROF-2              & Permettere una conversione da formato WEBP al formato JPG       & UC2
+        \\
+        \hline
+        ROF-3              & Permettere una conversione da formato PNG al formato PNG        & UC2
+        \\
+        \hline
+        ROF-4              & Permettere una conversione da formato SVG al formato PNG        & UC2
+        \\
+        \hline
+        ROF-5              & Permettere una conversione da formato TIFF al formato PNG       & UC2
+        \\
+        \hline
+        ROF-6              & Permettere una conversione da formato GIF al formato PNG        & UC2
+        \\
+        \hline
+        ROF-7              & Permettere una conversione da formato BMP al formato PNG        & UC2
+        \\
+        \hline
+        ROF-8              & Permettere una conversione da formato ICO al formato PNG        & UC2
+        \\
+        \hline
+        ROF-9              & Permettere una conversione da formato PSD al formato PNG        & UC2
+        \\
+        \hline
+        ROF-10             & Permettere una conversione da formato AI al formato PNG         & UC2
+        \\
+        \hline
+        ROF-11             & Permettere una conversione da formato EPS al formato PNG        & UC2
+        \\
+        \hline
+        ROF-12             & Permettere una conversione da formato PS al formato PNG         & UC2
+        \\
+        \hline
+        ROF-13             & Permettere una conversione da formato Postscript al formato PNG
+                           & UC2
+        \\
+        \hline
+        ROF-14             & Permettere una conversione da formato ARW al formato PNG        & UC2
+        \\
+        \hline
+        ROF-15             & Permettere una conversione da formato CR2 al formato PNG        & UC2
+        \\
+        \hline
+        ROF-16             & Permettere una conversione da formato DNG al formato PNG        & UC2
+        \\
+        \hline
+        ROF-17             & Permettere una conversione da formato NEF al formato PNG        & UC2
+        \\
+        \hline
+        ROF-18             & Permettere una conversione da formato ORF al formato PNG        & UC2
+        \\
+        \hline
+        ROF-19             & Permettere una conversione da formato RAF al formato PNG        & UC2
+        \\
+        \hline
+        ROF-20             & Impedire l'upscaling di una immagine                            & UC2
         \hline
     \end{tabularx}
 \end{table}%
