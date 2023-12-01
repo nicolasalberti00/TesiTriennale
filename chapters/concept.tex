@@ -29,16 +29,51 @@ Di seguito viene rappresentato un diagramma riassuntivo che mostra i casi d'uso
 individuati e le relazioni tra essi.
 
 \begin{usecase}{1}{Recupero dell'immagine}
-    \usecaseactors{Lambda, Bucket S3 di input delle immagini }
-    \usecasepre{La funzione Lambda è pronta per l'esecuzione e l'immagine da convertire è caricata nel Bucket S3 di input}
-    \usecasedesc{All'interno della Lambda viene effettuata una richiesta con il nome dell'immagine al bucket S3 e viene effettuato il download nella memoria interna della Lambda}
-    \usecasepost{La Lambda ha l'immagine salvata in memoria, al fine di procedere con la conversione}
+    \usecaseactors{\emph{Lambda}, \emph{bucket S3} di input delle immagini}
+    \usecasepre{La funzione \emph{Lambda} è pronta per l'esecuzione e l'immagine da convertire è caricata nel \emph{bucket S3} di \emph{input}}
+    \usecasedesc{All'interno della \emph{Lambda} viene effettuata una richiesta con il nome dell'immagine al \emph{bucket S3} e viene effettuato il download nella memoria interna della \emph{Lambda}}
+    \usecasepost{La \emph{Lambda} ha l'immagine salvata in memoria, al fine di procedere con la conversione}
     \label{uc:recupero-immagine}
 \end{usecase}
 
-\begin{usecase}{2}{Conversione dell'immagine}
+\begin{usecase}{2}{Recupero configurazione della conversione}
+    \usecaseactors{\emph{Lambda}, tabella \emph{DynamoDB}}
+    \usecasepre{La funzione Lambda è pronta per l'esecuzione e la configurazione della conversione è salvata nella tabella \emph{DynamoDB}}
+    \usecasedesc{All'interno della Lambda viene effettuata una richiesta con l'ID del cliente che ha richiesto la conversione alla tabella \emph{DynamoDB} contenente le configurazioni, suddivise per cliente, e vengono impostate le specifiche desiderate}
+    \usecasepost{La Lambda ha la configurazione della conversione salvata in memoria, al fine di procedere con la conversione}
+    \label{uc:recupero-configurazione}
 
 \end{usecase}
+
+\begin{usecase}{3}{Esecuzione della conversione}
+    \usecaseactors{\emph{Lambda}}
+    \usecasepre{La funzione \emph{Lambda} è pronta per l'esecuzione, l'immagine da convertire e la configurazione sono state salvate nella memoria temporanea della Lambda}
+    \usecasedesc{La funzione \emph{Lambda} effettua la conversione dell'immagine
+        secondo la configurazione desiderata. Se la conversione va a buon fine,
+        l'immagine convertita viene salvata nella memoria temporanea della \emph{Lambda},
+        contraddistinta da un nome univoco, composto da un \emph{ID} univoco, il
+        nome dell'immagine e il nome della configurazione utilizzata}
+    \usecasepost{La Lambda ha l'immagine convertita nella sua memoria temporanea e vengono salvate le caratteristiche della conversione in una variabile}
+    \label{uc:esecuzione-conversione}
+
+\end{usecase}
+\begin{usecase}
+    {4}{Salvataggio dell'immagine convertita}
+    \usecaseactors{\emph{Lambda}, \emph{bucket S3} di output delle immagini}
+    \usecasepre{La funzione \emph{Lambda} è pronta per iniziare l'\emph{upload} dell'immagine e l'immagine convertita è salvata nella memoria temporanea della \emph{Lambda}}
+    \usecasedesc{La funzione \emph{Lambda} effettua il caricamento dell'immagine convertita nel \emph{Bucket S3} di output delle immagini, inserendola in una sottocartella contraddistinta dal nome del cliente che ha richiesto la conversione}
+    \usecasepost{L'immagine convertita è salvata nel \emph{Bucket S3} di \emph{output} delle immagini nella cartella del cliente che ha richiesto la conversione}
+    \label{uc:salvataggio-immagine}
+\end{usecase}
+\begin{usecase}{5}{Salvataggio caratteristiche della conversione}
+    \usecaseactors{\emph{Lambda}, tabella \emph{DynamoDB} contenente tutte le conversioni effettuate}
+    \usecasepre{La funzione Lambda è pronta per scrivere le caratteristiche
+        della conversione in una tabella di \emph{DynamoDB} dedicata}
+    \usecasedesc{La funzione Lambda effettua il salvataggio delle caratteristiche della conversione nella tabella \emph{DynamoDB}, contraddistinta da un \emph{ID} univoco, il nome dell'immagine e il nome della configurazione utilizzata}
+    \usecasepost{Le caratteristiche della conversione sono salvate nella tabella \emph{DynamoDB}}
+    \label{uc:salvataggio-caratteristiche}
+\end{usecase}
+\clearpage
 
 \section{Tracciamento dei requisiti}
 
@@ -201,12 +236,16 @@ con i casi d'uso delineati in fase di analisi.
         \hline
         ROF-31             & Effettuare il salvataggio dell'immagine convertita
         in un percorso specifico
-                           & UC3
+                           & UC4
         \\
         \hline
         ROF-32             & Utilizzare dei parametri in formato JSON per la
         configurazione di una conversione
                            & UC1
+        \\
+        \hline
+        ROF-33             & Salvare le informazioni legate alla conversione in
+        campi strutturati  & UC5
         \\
         \hline
     \end{tabularx}
