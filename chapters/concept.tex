@@ -1,3 +1,4 @@
+
 \chapter{Analisi dei requisiti}
 \label{cap:analisi-requisiti}
 
@@ -87,100 +88,183 @@ con i casi d'uso delineati in fase di analisi.
 \newpage
 
 \subsection{Requisiti funzionali}
-\begin{table}%
+\begin{table}[H]
     \caption{Tabella del tracciamento dei requisti funzionali}
     \label{tab:requisiti-funzionali}
     \begin{tabularx}{\textwidth}{lXl}
         \hline\hline
-        \textbf{Requisito} & \textbf{Descrizione}                                            & \textbf{Use Case} \\
+        \textbf{Requisito} & \textbf{Descrizione}                                               & \textbf{Use Case} \\
         \hline
         ROF-1              & Permettere una conversione da formato JPG al
         formato JPG        & UC2
         \\
         \hline
-        ROF-2              & Permettere una conversione da formato WEBP al formato JPG       & UC2
+        ROF-2              & Permettere una conversione da formato WEBP al formato JPG          & UC2
         \\
         \hline
-        ROF-3              & Permettere una conversione da formato PNG al formato PNG        & UC2
+        ROF-3              & Permettere una conversione da formato PNG al formato PNG           & UC2
         \\
         \hline
-        ROF-4              & Permettere una conversione da formato SVG al formato PNG        & UC2
+        ROF-4              & Permettere una conversione da formato SVG al formato PNG           & UC2
         \\
         \hline
-        ROF-5              & Permettere una conversione da formato TIFF al formato PNG       & UC2
+        ROF-5              & Permettere una conversione da formato TIFF al formato PNG          & UC2
         \\
         \hline
-        ROF-6              & Permettere una conversione da formato GIF al formato PNG        & UC2
+        ROF-6              & Permettere una conversione da formato GIF al formato PNG           & UC2
         \\
         \hline
-        ROF-7              & Permettere una conversione da formato BMP al formato PNG        & UC2
+        ROF-7              & Permettere una conversione da formato BMP al formato PNG           & UC2
         \\
         \hline
-        ROF-8              & Permettere una conversione da formato ICO al formato PNG        & UC2
+        ROF-8              & Permettere una conversione da formato ICO al formato PNG           & UC2
         \\
         \hline
-        ROF-9              & Permettere una conversione da formato PSD al formato PNG        & UC2
+        ROF-9              & Permettere una conversione da formato PSD al formato PNG           & UC2
         \\
         \hline
-        ROF-10             & Permettere una conversione da formato AI al formato PNG         & UC2
+        ROF-10             & Permettere una conversione da formato AI al formato PNG            & UC2
         \\
         \hline
-        ROF-11             & Permettere una conversione da formato EPS al formato PNG        & UC2
+        ROF-11             & Permettere una conversione da formato EPS al formato PNG           & UC2
         \\
         \hline
-        ROF-12             & Permettere una conversione da formato PS al formato PNG         & UC2
+        ROF-12             & Permettere una conversione da formato PS al formato PNG            & UC2
         \\
         \hline
         ROF-13             & Permettere una conversione da formato Postscript al formato PNG
                            & UC2
         \\
         \hline
-        ROF-14             & Permettere una conversione da formato ARW al formato PNG        & UC2
+        ROF-14             & Permettere una conversione da formato ARW al formato PNG           & UC2
         \\
         \hline
-        ROF-15             & Permettere una conversione da formato CR2 al formato PNG        & UC2
+        ROF-15             & Permettere una conversione da formato CR2 al formato PNG           & UC2
         \\
         \hline
-        ROF-16             & Permettere una conversione da formato DNG al formato PNG        & UC2
+        ROF-16             & Permettere una conversione da formato DNG al formato PNG           & UC2
         \\
         \hline
-        ROF-17             & Permettere una conversione da formato NEF al formato PNG        & UC2
+        ROF-17             & Permettere una conversione da formato NEF al formato PNG           & UC2
         \\
         \hline
-        ROF-18             & Permettere una conversione da formato ORF al formato PNG        & UC2
+        ROF-18             & Permettere una conversione da formato ORF al formato PNG           & UC2
         \\
         \hline
-        ROF-19             & Permettere una conversione da formato RAF al formato PNG        & UC2
+        ROF-19             & Permettere una conversione da formato RAF al formato PNG           & UC2
         \\
         \hline
-        ROF-20             & Impedire l'upscaling di una immagine                            & UC2
+        ROF-20             & Impedire l'upscaling di una immagine
+                           & UC2                                                                                    \\
+        \hline
+        ROF-21             & Convertire il profilo colore dell'immagine
+                           & UC2                                                                                    \\
+        \hline
+        ROF-22             & Mantenere la trasparenza dell'immagine, se prevista
+                           & UC2                                                                                    \\
+        \hline
+        ROF-23             & Effettuare, se possibile, il downscale
+        dell'immagine secondo la risoluzione desiderata
+                           & UC2                                                                                    \\
+        \hline
+        ROF-24             & Permettere la conversione di più immagini in una
+        singola esecuzione
+                           & UC2
+        \\
+        \hline
+        ROF-25             & Permettere la conversione di più immagini ad una
+        diversa risoluzione durante una singola esecuzione
+                           & UC2
+        \\
+        \hline
+        ROF-26             & Effettuare l'estrazione del formato originale dell'immagine
+                           & UC2
+        \\
+        \hline
+        ROF-27             & Effettuare l'estrazione della risoluzione originale dell'immagine
+                           & UC2
+        \\
+        \hline
+        ROF-28             & Effettuare l'estrazione del profilo colore originale dell'immagine
+                           & UC2
+        \\
+        \hline
+        ROF-29             & Effettuare l'estrazione della dimensione in byte
+        dell'immagine originale
+                           & UC2
+        \\
+        \hline
+        ROF-30             & Individuare la presenza del canale alfa per la
+        trasparenza dell'immagine
+                           & UC2
+        \\
+        \hline
+        ROF-31             & Effettuare il salvataggio dell'immagine convertita
+        in un percorso specifico
+                           & UC3
+        \\
+        \hline
+        ROF-32             & Utilizzare dei parametri in formato JSON per la
+        configurazione di una conversione
+                           & UC1
+        \\
         \hline
     \end{tabularx}
 \end{table}%
-
 \subsection{Requisiti qualitativi}
-\begin{table}%
+\begin{table}[H]
     \caption{Tabella del tracciamento dei requisiti qualitativi}
     \label{tab:requisiti-qualitativi}
     \begin{tabularx}{\textwidth}{lXl}
         \hline\hline
         \textbf{Requisito}                  & \textbf{Descrizione}                    & \textbf{Use Case} \\
         \hline
-        RQO-1                               & Il progetto deve essere accompagnato da
+        ROQ-1                               & Il progetto deve essere accompagnato da
         documentazione tecnica e funzionale & Interno                                                     \\
         \hline
+        ROQ-2                               & Il codice deve essere accompagnato
+        da test di unità e di sistema       & Interno
+        \\
+        \hline
+        ROQ-3                               & Scrivere dei log per ogni
+        operazione effettuata, inserendo sempre l'ID della conversione
+                                            & Interno
+        \\
+        \hline
     \end{tabularx}
-\end{table}%
+\end{table}
 
 \subsection{Requisiti di vincolo}
-\begin{table}%
+\begin{table}[H]
     \caption{Tabella del tracciamento dei requisiti di vincolo}
     \label{tab:requisiti-vincolo}
     \begin{tabularx}{\textwidth}{lXl}
         \hline\hline
-        \textbf{Requisito} & \textbf{Descrizione}                                                        & \textbf{Use Case} \\
+        \textbf{Requisito}                                               & \textbf{Descrizione}                                & \textbf{Use Case} \\
         \hline
-        RVO-1              & La libreria per l'esecuzione dei test automatici deve essere riutilizzabile & -                 \\
+        ROV-1                                                            & Il servizio deve essere implementato utilizzando il
+        linguaggio di programmazione \emph{Go}                           & UC1                                                                     \\
+        \hline
+        ROV-2                                                            & Il servizio deve utilizzare l'istanza
+        \emph{Lambda} di \emph{AWS} per
+        l'esecuzione del codice                                          & UC2                                                                     \\
+        \hline
+        ROV-3                                                            & Il servizio deve utilizzare il sistema di
+        persistenza \emph{DynamoDB} di \emph{AWS} per i dati strutturati & UC1
+        \\
+        \hline
+        ROV-4                                                            & Il servizio deve utilizzare il sistema di
+        persistenza \emph{S3} di \emph{AWS} per i dati non strutturati   & UC1
+        \\
+        \hline
+        RDV-5                                                            & Il
+        servizio deve integrare i log con il sistema di monitoraggio
+        \emph{CloudWatch} di \emph{AWS}                                  & UC3
+        \\
+        \hline
+        RZV-6                                                            & Il
+        servizio deve esporre delle \emph{API REST} per il recupero dei
+        \emph{job} di conversione da parte del team di \emph{frontend}   & UC3                                                                     \\
         \hline
     \end{tabularx}
 \end{table}%
