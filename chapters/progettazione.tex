@@ -158,8 +158,139 @@ Nel progetto è stata utilizzata solo una minima parte del programma, ovvero
 solo il comando \emph{identify}, che permette di recuperare i metadati dai file
 di formato \emph{EPS, PS e AI}. \cite{imagemagick}
 
-\subsection{Configurazione dell'ambiente di sviluppo del progetto}
+\newpage
+\section{Struttura del sistema}
 
+Il sistema è composto solamente dalla sezione \emph{back-end}, poiché
+non è previsto che l'utente interagisca direttamente con il sistema delle
+conversioni. \\
+Il sistema si occupa di elaborare le richieste di conversione, di gestirle e di
+salvare i risultati negli spazi di \emph{storage} dedicati.
 
+\subsection{Ambiente di sviluppo}
+
+È stato predisposto un ambiente di test, detto \emph{sandbox}, che permette di
+testare il servizio serverless sviluppato senza intaccare la struttura e le
+funzionalità già presenti in produzione. In questo ambiente è possibile
+utilizzare tutte le risorse necessarie al servizio.
+
+\subsection{Configurazione dell'ambiente di sviluppo}
+
+Il progetto di stage necessita di cartelle e file per la configurazione
+dell'ambiente di sviluppo e per la configurazione del \emph{deploy}. Più nello
+specifico, il progetto segue la struttura qui descritta:
+
+\subsubsection{\emph{Buildspec}}
+
+Il file \emph{buildspec} è un file di configurazione che contiene la definizione
+dello \emph{stack} di risorse da generare su \glsfirstoccur\gls{AWS
+    Cloudformation}. \\
+Dopo aver effettuato tutti i comandi all'interno del file \emph{buildspec},
+viene avviato il processo di \emph{deploy} delle risorse \emph{AWS} definite nel
+file \emph{infra.go}. Il file \emph{buildspec} è un file di tipo \emph{YAML},
+formato dalle seguenti sezioni:
+\begin{itemize}
+    \item La sezione \emph{env}, dove vengono specificate le variabili
+          d'ambiente utilizzate nel progetto;
+    \item la sezione \emph{pre-build}, dove vengono specificati i comandi da
+          eseguire prima della \emph{build} del progetto;
+    \item la sezione \emph{build}, dove viene specificato il comando per il
+          \emph{deploy} del progetto.
+\end{itemize}
+
+\subsubsection{\emph{Infra}}
+
+Il file \emph{infra.go}, presente all'interno della cartella \emph{infra}, è un file di configurazione scritto in linguaggio
+\emph{Go}, che contiene la definizione dello \emph{stack} di risorse da
+generare.\\
+Qui sono state definite le seguenti risorse:
+\begin{itemize}
+    \item due \emph{bucket S3}, uno dove caricare le immagini da convertire,
+          detto \emph{input}, l'altro dove caricare le immagini convertite, detto
+          \emph{output};
+    \item due tabelle \emph{DynamoDB}, una dove salvare le informazioni legate
+          alle conversioni effettuate, detta \emph{jobs}, l'altra dove sono salvate le
+          configurazioni delle conversioni da effettuare, detta \emph{client-conf};
+    \item una funzione \emph{Lambda}, detta \emph{converter}, che esegue il
+          codice presente nel file \emph{main.go}, all'interno della cartella
+          \emph{cmd}. La funzione \emph{Lambda} invoca un \glsfirstoccur\gls{container}
+          \glsfirstoccur\gls{docker} che permette di eseguire il codice legato
+          alla conversione.
+\end{itemize}
+
+\subsubsection{Dockerfile}
+
+Il file \emph{Dockerfile} è un file di configurazione che contiene la
+definizione di un \emph{container} \emph{Docker}, in cui sono presenti tutte le
+dipendenze necessarie al funzionamento del codice. \\
+Quando viene invocata la funzione \emph{Lambda}, viene avviato il
+\emph{container} \emph{Docker}, al fine di eseguire il codice in un ambiente
+isolato, garantendone la funzionalità \emph{serverless}.
+
+\section{Progettazione}
+
+\subsection{Architettura}
+
+L'architettura del sistema è sviluppata pensando alle \emph{best practices} per
+lo sviluppo di servizi \emph{serverless}: in particolare mi sono dedicato alla
+scrittura della \emph{business logic} del servizio e delle risorse necessarie al
+suo funzionamento. \\
+Il sistema prevede l'utilizzo di tre tipi di risorsa \emph{AWS}:
+\begin{itemize}
+    \item \textbf{\emph{Lambda:}} è la funzione che si occupa di eseguire la
+          \emph{business logic} del codice e di inviare e ricevere i dati dalle altre risorse
+          previste. Questa funzione si occupa di ;
+    \item \textbf{\emph{DynamoDB:}} è il database \emph{NoSQL} che si occupa di
+          mantenere le informazioni legate alla configurazione delle conversioni da
+          effettuare e quelle legate alle conversioni eseguite dalla \emph{Lambda};
+    \item \textbf{\emph{S3:}} è lo spazio di \emph{storage} che si occupa di
+          mantenere le immagini da convertire e quelle convertite.
+\end{itemize}
+
+\subsection{Confronto con l'architettura precedente}
+
+Essendo il progetto di stage destinato alla sostituzione di un servizio
+attualmente in produzione, è stato necessario confrontare l'architettura
+esistente con quella proposta. Le principali differenze sono le seguenti:
+\begin{itemize}
+    \item \textbf{\emph{deprecazione delle step-function:}} il servizio attuale
+          prevede l'utilizzo di \emph{AWS Step Functions}, un servizio che si occupa
+          di orchestrare i servizi ad esso legati. L'implementazione di questo
+          servizio viene realizzata tramite una macchina a stati, che gestisce il
+          flusso di esecuzione in base agli eventi ricevuti. Tra gli eventi
+          ricevuti si evidenzia la presenza di una chiamata che permette di
+          pulire dall' \glsfirstoccur\gls{EFS} (\emph{Elastic File System}) le
+          immagini convertite. \\
+          Nel progetto di stage è stato deciso di rimuovere l'utilizzo delle
+          \emph{step-functions} per semplificare il flusso della conversione e
+          rendere il sistema più semplice da mantenere e da migliorare;
+    \item \textbf{\emph{deprecazione dell'EFS:}} il servizio attuale prevede
+          l'utilizzo di \emph{EFS} per gestire le immagini da convertire e le
+          immagini convertite. \\
+          Nel progetto di stage è stato deciso di rimuovere l'utilizzo di \emph{EFS}, in
+          quanto la responsabilità della gestione dell'immagine in ambiente
+          \emph{serverless} viene delegata completamente al processo eseguito
+          dalla \emph{Lambda}, ed eventuali file temporanei non devono più
+          essere gestiti manualmente.
+\end{itemize}
+
+Queste scelte architetturali portano tuttavia ad una limitazione rispetto al servizio
+attualmente in uso, ovvero l'impossibilità di assegnare manualmente la memoria
+\emph{RAM} al servizio di conversione. Questa limitazione è dovuta al fatto che
+la funzione \emph{Lambda} ha una capacità di memoria massima pari a 10240
+\emph{MB}, impedendo l'eventuale conversione di immagini con un peso
+superiore.\\
+Questa è considerata una limitazione facilmente superabile per due motivi:
+\begin{itemize}
+    \item il limite di memoria utilizzabile dalla funzione \emph{Lambda} può essere
+          contrattato con \emph{AWS}, nel caso vi fosse la necessità di gestire immagini
+          con peso superiore al limite attuale;
+    \item secondo una analisi delle conversioni effettuate dal servizio attuale,
+          prendendo in considerazione tutte le immagini caricate nella piattaforma
+          durante il mese di settembre 2023, è stato identificato che il peso medio di
+          un'immagine equivale a 9,02 \emph{MB}, con un peso massimo raggiunto di 2,03
+          \emph{GB}: entrambe le dimensioni sono ampiamente al di sotto della quota di
+          memoria prevista per la funzione \emph{Lambda}.
+\end{itemize}
 
 
