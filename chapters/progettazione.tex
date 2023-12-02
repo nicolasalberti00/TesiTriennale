@@ -4,3 +4,162 @@
 \intro{In questo capitolo viene presentata la struttura principale del progetto
     e le attività di progettazione del servizio. Vengono inoltre descritte le
     tecnologie utilizzate durante lo sviluppo e le scelte architetturali.}\\
+
+\section{Tecnologie utilizzate}
+
+Di seguito vengono elencate e descritte le tecnologie utilizzate durante lo sviluppo del
+progetto di stage.
+
+\subsection{Back-end}
+
+\subsubsection{Go}
+
+Go è un linguaggio di programmazione \emph{open source} sviluppato da
+\emph{Google} nel 2007. È un linguaggio compilato, staticamente tipizzato e
+fortemente tipizzato, con una sintassi simile a quella del linguaggio \emph{C}.
+Il linguaggio è stato progettato per semplificare la programmazione di sistemi
+distribuiti, con particolare attenzione alla concorrenza e alla
+comunicazione in rete. \\
+È un linguaggio che segue una filosofia di scrittura del codice molto semplice e
+nel mio progetto ho seguito alcune delle linee guida proposte dalla comunità di
+sviluppatori, come ad esempio la struttura del codice e la gestione degli errori
+con il \emph{pattern} \emph{error handling}. \\
+Per il mio progetto ho utilizzato la versione 1.21 di \emph{Go}, al fine di
+utilizzare l'ultima versione attualmente disponibile. \cite{go}
+
+\subsubsection{AWS CDK}
+
+\emph{AWS Cloud Development Kit} (AWS CDK) è un \emph{framework} di sviluppo
+\emph{open-source} che permette di definire le risorse \emph{AWS} utilizzando
+uno o più linguaggi di programmazione. Questo \emph{framework} prevede il pieno
+supporto al linguaggio di programmazione \emph{Go}. \\
+Nel progetto è stato utilizzato per definire lo \emph{stack} contenente le risorse \emph{AWS}
+necessarie al funzionamento del servizio, come la funzione \emph{Lambda}, le
+tabelle \emph{DynamoDB} e i \emph{bucket S3}. \cite{go-aws-cdk}
+
+\subsubsection{AWS SDK}
+
+\emph{AWS Software Developement Kit} (AWS SDK) è un insieme di librerie che
+permettono di interagire con i servizi \emph{AWS} utilizzando diversi linguaggi
+di programmazione. L'\emph{SDK} prevede il pieno supporto al linguaggio di
+programmazione \emph{Go}. \\
+Nel progetto è stato utilizzato per interagire con le risorse \emph{AWS}
+definite con \emph{AWS CDK}. \cite{go-aws-sdk}
+
+\subsubsection{AWS Lambda}
+
+\emph{AWS Lambda} è un servizio \emph{serverless} che permette di eseguire del
+codice senza dover gestire l'infrastruttura sottostante. Il servizio permette di
+eseguire del codice in risposta a determinati eventi, come ad esempio una
+richiesta \emph{HTTP} o un inserimento di dati in una tabella \emph{DynamoDB}.
+\\
+Nel progetto è stato utilizzato per eseguire il codice che permette di
+di effettuare la conversione delle immagini desiderate, recuperando una
+configurazione da una tabella \emph{DynamoDB}, recuperando l'immagine da
+convertire da un \emph{bucket S3} e salvando il risultato in un secondo
+\emph{bucket S3}, dopo aver salvato le informazioni legate alla conversione in
+una seconda tabella \emph{DynamoDB}.
+
+\subsubsection{AWS DynamoDB}
+
+\emph{AWS DynamoDB} è un database \emph{NoSQL} completamente gestito, che
+supporta strutture di dati di tipo documento e di tipo chiave-valore. Questo
+database supporta lettura e scrittura di dati senza degradamento delle
+performance generali del servizio. \\
+Nel progetto è stato utilizzato per salvare le informazioni legate alle
+conversioni effettuate, come ad esempio il nome dell'immagine convertita, il
+tipo di conversione effettuata e il momento in cui è stata effettuata la
+conversione. È stato inoltre utilizzato per salvare le configurazioni di
+conversione, come ad esempio il formato di output e la qualità dell'immagine
+convertita.
+
+\subsubsection{AWS S3}
+
+\emph{AWS S3} è un servizio di \emph{storage} completamente gestito, che
+permette di salvare e recuperare dati da una posizione di memoria detta
+\emph{bucekt}. Supporta operazioni di lettura e scrittura di dati da parte di
+altri servizi, ma può essere utilizzato per gestire \emph{backup} o per servire
+siti \emph{web} statici. \\
+Nel mio progetto è stato utilizzato per salvare le immagini da convertire e le
+immagini convertite.
+
+\subsubsection{AWS CloudWatch}
+
+\emph{AWS CloudWatch} è un servizio di monitoraggio e gestione delle risorse
+\emph{AWS} e delle applicazioni eseguite su \emph{AWS}. Il servizio permette di
+raccogliere e monitorare dati di interesse, visualizzandoli in modo sintetico e
+intuitivo. \\
+Nel progetto è stato utilizzato per monitorare le conversioni effettuate e
+raccogliere i \emph{log} presenti all'interno del codice eseguito dalla funzione
+\emph{Lambda}.
+
+\subsection{Versionamento}
+
+\subsubsection{Git}
+
+\emph{Git} è un sistema di controllo di versione distribuito, utilizzato per
+tenere traccia delle modifiche effettuate al codice sorgente di un progetto
+\glsfirstoccur\gls{software}.
+
+\subsubsection{AWS CodeCommit}
+
+\emph{AWS CodeCommit} è un servizio di controllo di versione completamente
+gestito all'interno dell'ecosistema di \emph{AWS}, che permette di ospitare in modo sicuro e scalabile i \emph{repository}
+\emph{Git} privati. \\
+
+\subsection{Librerie e applicazioni esterne}
+
+\subsubsection{Libvips}
+
+\emph{Libvips} è una libreria \emph{open source} per la manipolazione di immagini
+sviluppata in \emph{C}. La libreria è stata sviluppata per essere veloce e
+utilizzare poca memoria, ed è ampiamente utilizzata da numerose applicazioni
+\emph{web} e \emph{desktop}. \\
+Nel progetto è stata utilizzata per effettuare la conversione delle immagini
+di formato \emph{JPEG, WebP, PNG, SVG, TIFF e GIF} verso i formati \emph{JPEG} e
+\emph{PNG}. La libreria permette di applicare all'immagine il profilo colore
+desiderato, permette la rotazione automatica di un'immagine seguendo
+l'orientamento presente dei \glsfirstoccur\gls{metadati}
+\glsfirstoccur\gls{EXIF} e permette di scalare un'immagine seguendo la larghezza
+e l'altezza desiderate. \cite{libvips}
+
+\subsubsection{GhostScript}
+
+\emph{GhostScript} è un interprete per il linguaggio di descrizione dei file
+\emph{PostScript} ed \emph{EPS} (\emph{Encapsulated PostScript}).
+Questo interprete permette la conversione delle immagini dai formati \emph{PS,
+    EPS e AI} ai formati \emph{JPEG} e
+\emph{PNG}. \\
+Nel progetto viene richiamato direttamente dal codice \emph{Go} per effettuare
+la conversione, specificando il formato di output desiderato. \cite{ghostscript}
+
+\subsubsection{Darktable}
+
+\emph{Darktable} è un'applicazione \emph{open source} per la gestione e la
+modifica di immagini \emph{RAW}. Questa applicazione permette di convertire le
+immagini \emph{RAW} in immagini nei formati \emph{JPEG} e \emph{PNG}.
+L'applicazione presenta anche una interfaccia \glsfirstoccur\gls{CLI} che
+permette di effettuare il processo di conversione immagini richiamandola
+direttamente dal codice \emph{Go} del progetto.\\
+L'applicazione permette di applicare un profilo colore desiderato e di impostare
+la qualità dell'immagine convertita tramite un valore che varia da 0 a 100. \cite{darktable}
+
+\subsubsection{Go-psd}
+
+\emph{Go-psd} è una libreria \emph{open source} sviluppata in \emph{Go} che
+permette di leggere e scrivere file \emph{PSD} (\emph{Photoshop Document}),
+senza servirsi di \emph{software} esterni. \cite{go-psd}
+
+\subsubsection{Imagemagick}
+
+\emph{Imagemagick} è un \emph{software} \emph{open source} per la manipolazione
+di immagini, che permette di convertire le immagini da un formato all'altro.
+Nel progetto è stata utilizzata solo una minima parte del programma, ovvero
+solo il comando \emph{identify}, che permette di recuperare i metadati dai file
+di formato \emph{EPS, PS e AI}. \cite{imagemagick}
+
+\subsection{Configurazione dell'ambiente di sviluppo del progetto}
+
+
+
+
