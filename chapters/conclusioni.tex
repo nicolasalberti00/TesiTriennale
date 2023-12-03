@@ -1,12 +1,108 @@
 \chapter{Conclusioni}
 \label{cap:conclusioni}
 
+Il progetto di stage svolto ha avuto come scopo la realizzazione di un servizio
+per la conversione di immagini in linguaggio di programmazione \emph{Go}. Il
+servizio doveva essere realizzato utilizzando tecnologie \emph{cloud-native} e
+\emph{serverless}, quali \emph{AWS Lambda}, \emph{AWS S3} e \emph{AWS DynamoDB}.
+Il servizio prevedeva l'utilizzo di diverse librerie e programmi specializzati,
+al fine di mantenere il supporto a tutti i formati gestiti dalla piattaforma
+THRON. Per la realizzazione del progetto è stato necessario seguire varie fasi
+di sviluppo, quali l'analisi dei requisiti, in cui sono stati definiti i casi
+d'uso e i requisiti previsti dal sistema. Successivamente, sono state analizzate
+le tecnologie da utilizzare, con uno studio di esse, concentrandosi sul
+linguaggio di programmazione\emph{Go} e la sua integrazione con i servizi
+forniti da \emph{AWS}. Infine è stata progettata l'architettura del servizio,
+permettendo la generazione delle risorse in maniera programmatica, ed
+effettuando l'implementazione di tutte le funzionalità previste.\\
 
-
-\section{Consuntivo finale}
-
-\section{Raggiungimento degli obiettivi}
+In merito agli obiettivi prefissati per lo stage (in sezione
+\ref{sec:obiettivi}), sono stati raggiunti tutti gli obiettivi obbligatori. Per
+quanto riguarda l'obiettivo opzionale non è stato raggiunto, in quanto è stato
+dedicato più tempo alla fase di sviluppo della \emph{proof of concept} del
+progetto e non è stato possibile implementare la \emph{dashboard} desiderata.
+Gli obiettivi desiderabili invece sono stati raggiunti solo parzialmente, in
+quanto sono state ed implementate le strutture per ospitare i dati necessari ad
+ottenere tali informazioni, ma non è stato possibile implementare le
+\emph{query} specifiche a causa della mancanza di tempo a disposizione.\\
+Di seguito vengono riportati più in dettaglio gli obiettivi superati:
+\begin{itemize}
+    \item \textbf{OB1}: realizzazione di un servizio di conversione immagini
+          in \emph{Go} per supportare la migrazione aziendale in ambito
+          \emph{\glsfirstoccur\gls{serverless}};
+    \item \textbf{OB2:} effettuare la conversione seguendo un profilo di
+          conversione recuperato da una tabella \emph{\glsfirstoccur\gls{DynamoDB}}
+    \item \textbf{OB3:} scrivere su una tabella \emph{DynamoDB} il risultato
+          della conversione, i dati specifici della conversione e le eventuali cause
+          di errore;
+\end{itemize}
 
 \section{Conoscenze acquisite}
+Il progetto di stage mi ha permesso di acquisire nuove competenze e conoscenze
+tecniche e personali, andando ad arricchire il mio bagaglio tecnico e culturale
+e soddisfando le mie aspettative iniziali.\\
+È stato molto interessante poter conoscere le tecnologie \emph{THRON DAM} e
+\emph{THRON PIM} di cui non ero a conoscenza, ed è stato molto stimolante
+analizzare come funzionano servizi di gestione degli \emph{asset} digitali nel
+loro lato più tecnico. Con questo ho potuto avere una conoscenza più ampia del
+contesto operativo dell'azienda in qui ho svolto lo stage.\\
+Tra le competenze tecniche spicca sicuramente l'apprendimento del linguaggio di
+programmazione \emph{Go}, che non avevo mai utilizzato prima. Sono rimasto
+sorpreso dalla semplicità e dalla potenza che offre il linguaggio agli
+sviluppatori, permettendo attività di sviluppo rapida ma allo stesso tempo
+efficace. Ho sfruttato appieno le \emph{best practices} definite dalla
+\emph{community} di sviluppatori \emph{Go} \cite{effective-go}, principalmente nell'attività di
+gestione degli errori e nell'attività di \emph{logging}. Sono rimasto
+soddisfatto della scelta di questo stage, in quanto uno dei motivi che mi ha
+spinto a scegliere questa azienda e il suo progetto è stata proprio la
+possibilità di utilizzare questo linguaggio di programmazione, che intendevo
+scoprire e approfondire a livello personale.\\
+Ho potuto conoscere ed approfondire le tecnologie \emph{AWS}, che non avevo mai
+utilizzato prima di questo stage e che ho trovato estremamente interessanti e
+complesse allo stesso tempo. È stato molto stimolante poter utilizzare delle
+risorse di tipo \emph{cloud-native} e \emph{serverless} per la realizzazione di
+un servizio simile, permettendomi di conoscere nuovi paradigmi di sviluppo e
+nuove metodologie di lavoro.\\
+La competenza personale più importante che ho acquisito è stata la capacità di
+lavorare a stretto contatto con un team di sviluppo, partecipando attivamente a
+tutte le loro attività, dalla riunione quotidiana fino alle riunioni di
+\emph{retrospettiva}, in cui ho approfondito la mia capacità di analisi e
+relazione dello sviluppo del lavoro svolto. Ho potuto inoltre sperimentare ed
+approfondire la metodologia \emph{Scrum}, già utilizzata nel corso di
+\emph{Ingegneria del Software}, ma applicata in maniera meno approfondita
+rispetto a quanto visto in questo stage.
 
 \section{Valutazione personale}
+
+L'esperienza di stage è stata una parte fondamendale del mio percorso
+universitario, sia a livello personale che professionale. In questo periodo ho
+avuto la possibilità di affrontare in maniera più dettagliata l'ambito dello sviluppo
+\emph{back-end}, che ho sempre trovato molto complesso da attuare. Grazie a
+questo stage mi sono reso conto che le mie idee riguardanti questo sviluppo
+erano fuorvianti e dettate forse dalla mia poca esperienza in questo ambito: ho
+potuto constatare che lo sviluppo \emph{back-end} è un'attività molto stimolante
+e che porta anche una certa gratificazione personale, dato che è stato bello in
+questo caso vedere i progressi man mano che il progetto prendeva forma.\\
+Un altro aspetto che ho apprezzato molto è stato il lavoro in un team di
+sviluppo ben consolidato, che segue regole ben definite al fine di garantire il
+raggiungimento degli obiettivi prefissati in maniera efficace ed efficiente. La
+presenza a stretto contatto del team mi ha permesso di integrare la loro
+metodologia di lavoro anche nel mio progetto di stage, stimolandomi ad ottenere
+risultati migliori e dimostrabili a tutti. Grazie alle interazioni con il team
+ho avuto la possiblità di comprendere meglio le mie passioni e di definire in
+maniera più precisa il mio percorso di studi e di carriera professionale
+futuri.\\
+Il periodo di due mesi trascorso in azienda è stato molto stimolante e
+piacevole, anche grazie all'azienda stessa che promuove un ambiente di lavoro
+giovane, stimolante ma anche informale e rilassato. Le persone con cui sono
+stato a contatto si sono sempre dimostrate disponibili e competenti, mi hanno
+guidato ed aiutato durante questo periodo, permettendomi di raggiungere gli
+obiettivi prefissati sia a livello tecnico sia a livello personale.\\
+
+In conclusione, valuto l'esperienza di stage come estremamente positiva, gratificante e
+necessaria all'interno di un percorso di studi come quello frequentato. È
+un'attività assolutamente fondamentale, che permette a chi la svolge di mettersi
+in gioco e di imparare competenze e conoscenze tecniche e non, richieste dal
+mondo del lavoro. Sono estremamente soddisfatto del percorso seguito e dei
+risultati ottenuti, che mi hanno permesso di arricchire il mio bagaglio tecnico
+e culturale per affrontare al meglio le sfide che si presenteranno in futuro.
