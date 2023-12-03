@@ -165,6 +165,14 @@ specifico vengono salvati:
     \item \textbf{ErrorCause:} causa dell'errore, se presente.
 \end{itemize}
 
+Un esempio di come viene visualizzato un \emph{job} all'interno del
+\emph{database DynamoDB} è il seguente:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/esempio-job-dynamo.png}
+    \caption{Esempio di un \emph{job} all'interno del \emph{database DynamoDB}}
+\end{figure}
+
 \subsection{Service}
 
 In questa cartella viene definito il file principale del servizio, che contiene
@@ -180,7 +188,8 @@ utilizzati per effettuare i controlli utilizzati come guardia per scegliere la
 conversione adatta al formato richiesto. Per accelerare il processo di
 conversione, seguendo il principio \emph{fail fast}, se il formato in ingresso
 non è presente nelle strutture viene interrotto il flusso e viene restituito un
-errore.\\
+errore. Nella tabella contenente i \emph{job} di conversione, sarà presente
+anche un campo dedicato a mostrare la causa dell'errore avvenuto.\\
 Se il formato è accettato, viene verificato se è in atto un tentativo di
 \emph{upscaling} dell'immagine, confrontando le dimensioni dell'immagine con
 quelle richieste dalla configurazione: se sta per essere effettuato, viene
@@ -188,6 +197,92 @@ saltata la conversione per quel formato e viene restituito un messaggio di
 \emph{warning} per avvisare che quella conversione non verrà eseguita.\\
 Viene effettuata la conversione utilizzando il metodo adatto al formato in
 ingresso ed infine viene caricata l'immagine nel \emph{bucket} di output ed
-aggiornata la tabella contenente i \emph{job} delle conversioni.
+aggiornata la tabella contenente i \emph{job} delle conversioni.\\
 
 
+\subsection{Utils}
+
+In questa cartella è definito un file che contiene le funzioni di utilità che
+sono state sfruttate in tutto il progetto.
+
+\subsubsection{\emph{utils}}
+
+In questo file sono presenti le funzioni che devono svolgere compiti ripetitivi
+e per offrire metodi più semplici di interagire con altri programmi. Ogni
+funzione, se non specificato diversamente, ritorna sempre un errore nel caso in
+cui le operazioni richieste non vadano a buon fine. Le funzioni
+definite sono le seguenti:
+\begin{itemize}
+    \item \emph{ExecuteCommand:} questa funzione permette di eseguire un
+          comando come se si fosse in un terminale, specificando il nome del
+          programma da utilizzare e i parametri da passare. Viene utilizzata ogni
+          volta che vengono invocati i programmi esterni alle librerie di \emph{Go};
+    \item \emph{CheckUpscaling:} questa funzione permette di verificare se le
+          immagini di input sono più piccole di quelle richieste in output. Se
+          si sta per verificare un caso di \emph{upscaling}, viene
+          \emph{loggato} un messaggio di \emph{warning} e viene ritornato un
+          errore specifico;
+    \item \emph{CheckFormat:} questa funzione ha lo scopo di verificare se il
+          formato \glsfirstoccur\gls{mimetype}, che le viene passato come
+          stringa, sia presente nella struttura contenente i formati accettati
+          da una specifica conversione. Questa funzione viene riutilizzata per
+          ogni formato e permette di identificare nella lista di stringhe,
+          rappresentata come \emph{mappa}, se la chiave sia presente o meno.
+          Ritorna un valore \emph{booleano} a seconda del risultato.
+    \item \emph{GetImageSize:} questa funzione utilizza il percorso del file in
+          esame per recuperare il peso in \emph{byte} dell'immagine e lo ritorna.
+    \item \emph{RetrieveFormat:} questa funzione utilizza la funzione
+          \emph{ExecuteCommand} per eseguire il programma \emph{Exiftool} con i
+          parametri \emph{-s3}, \emph{-MIMEType}, \emph{filename}. Con questi
+          parametri abbiamo indicato che vuole essere ritornato il \emph{mimetype} del
+          file in esame nella forma abbreviata, grazie al parametro \emph{-s3}, che
+          evita la stampa di descrizioni riguardanti il formato individuato.
+    \item \emph{RetrieveResolution:} questa funzione, come la precedente,
+          utilizza \emph{Exiftool} per recuperare la risoluzione dell'immagine in
+          pixel. Viene utilizzata la forma abbreviata per la stampa delle informazioni
+          e la stringa ritornata dal programma viene manipolata per ottenere le
+          informazioni di larghezza e altezza come variabili separate.
+    \item \emph{RetrieveResolutionEPS:} questa funzione, come la precedente,
+          recupera la risoluzione dell'immagine in pixel, ma viene utilizzata per le
+          conversioni di file di tipo \emph{EPS, PS} e \emph{AI}. Questi formati,
+          essendo formati di tipo \emph{layered}, ossia caratterizzati da uno o più
+          livelli, non sono facilmente interpretabili da \emph{Exiftool}. Per questo
+          motivo viene utilizzato il comando \emph{identify} del programma
+          \emph{ImageMagick}, che adempie al compito previsto.
+    \item \emph{RetrieveColorSpace:} questa funzione utilizza \emph{Exiftool} e
+          i parametri \emph{-s3}, \emph{-ColorSpace}, \emph{filename} per recuperare
+          lo spazio colore utilizzato dall'immagine. Nel caso in cui questo comando
+          ritorni il valore \emph{Uncalibrated}, viene rieseguito il \emph{Exiftool},
+          questa volta con il comando \emph{-ColorSpaceData}, al fine di identificare
+          lo spazio colore generale che è stato utilizzato.
+    \item \emph{RescaleImage:} questa funzione utilizza la libreria \emph{vips}
+          per eseguire la trasformazione dell'immagine, seguendo la larghezza e la
+          altezza impostati come parametri. Viene restituito un tipo
+          \emph{*vips.ImageRef}, ossia un puntatore ad un oggetto immagine gestito da
+          \emph{vips}, su cui possono essere applicate altre trasformazioni prima di
+          eseguire il salvataggio su file.
+    \item \emph{TransformICCProfile:} questa funzione utilizza \emph{vips} per
+          applicare il profilo colore desiderato all'immagine. Sono utilizzati due
+          profili colore, uno di tipo \emph{sRGB} per tutti i profili colore
+          individuati, mentre l'altro viene utilizzato per le immagini che utilizzano
+          un profilo colore di tipo \emph{CMYK}: questo viene fatto per mantenere una
+          rappresentazione uniforme dei colori a schermo.
+    \item \emph{SaveImage:} questa funzione permette il salvataggio su file
+          dell'immagine elaborata. Esistono due metodi per salvare l'immagine, a
+          seconda del formato di output desiderato, quindi \emph{JPG} o \emph{PNG}.
+          Ogni modalità di esportazione ha diversi parametri che possono essere
+          impostati a piacimento, tuttavia nel progetto di stage l'unico parametro che viene
+          utilizzato è quello relativo alla qualità dell'immagine, impostata in
+          precedenza nella configurazione del cliente.
+    \item \emph{CalculateNewResolution:} questa funzione viene utilizzata dalla
+          conversione dei formati \emph{PSD}. Per questi file vi è la necessità di
+          calcolare un fattore di \emph{scaling} per mantenere il rapporto prospettico
+          dell'immagine, evitando eventuali deformazioni della stessa: questa operazione
+          viene effettuata poiché la libreria utilizzata per gestire questi formati
+          non effettua questo controllo.
+          Il rapporto prospettico desiderato viene calcolato dividendo la larghezza desiderata per la larghezza originale
+          dell'immagine e lo stesso viene fatto per l'altezza. Vengono poi confrontati
+          i due fattori individuati e si utilizza quello più piccolo per effettuare la
+          computazione della nuova risoluzione. Si effettua infine la moltiplicazione
+          della larghezza e della altezza di input per il fattore di \emph{scaling}
+\end{itemize}

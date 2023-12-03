@@ -2,8 +2,8 @@
 \label{cap:struttura-progettazione}
 
 \intro{In questo capitolo viene presentata la struttura principale del progetto
-    e le attività di progettazione del servizio. Vengono inoltre descritte le
-    tecnologie utilizzate durante lo sviluppo e le scelte architetturali.}\\
+      e le attività di progettazione del servizio. Vengono inoltre descritte le
+      tecnologie utilizzate durante lo sviluppo e le scelte architetturali.}\\
 
 \section{Tecnologie utilizzate}
 
@@ -25,7 +25,12 @@ nel mio progetto ho seguito alcune delle linee guida proposte dalla comunità di
 sviluppatori, come ad esempio la struttura del codice e la gestione degli errori
 con il \emph{pattern} \emph{error handling}. \\
 Per il mio progetto ho utilizzato la versione 1.21 di \emph{Go}, al fine di
-utilizzare l'ultima versione attualmente disponibile. \cite{go}
+utilizzare l'ultima versione attualmente disponibile.\\
+Una caratteristica particolare di \emph{Go}, che verrà mostrata successivamente
+nella sezione dedicata alla codifica, è la capacità di rendere pubbliche le
+funzioni o le variabili semplicemente scrivendo il nome con la lettera iniziale
+maiuscola: questo sistema permette di identificare a colpo d'occhio le funzioni
+o le variabili pubbliche, mantenendo il codice semplice da leggere e scrivere. \cite{go}
 
 \subsubsection{AWS CDK}
 
@@ -128,7 +133,7 @@ e l'altezza desiderate. \cite{libvips}
 \emph{GhostScript} è un interprete per il linguaggio di descrizione dei file
 \emph{PostScript} ed \emph{EPS} (\emph{Encapsulated PostScript}).
 Questo interprete permette la conversione delle immagini dai formati \emph{PS,
-    EPS e AI} ai formati \emph{JPEG} e
+      EPS e AI} ai formati \emph{JPEG} e
 \emph{PNG}. \\
 Nel progetto viene richiamato direttamente dal codice \emph{Go} per effettuare
 la conversione, specificando il formato di output desiderato. \cite{ghostscript}
@@ -158,6 +163,14 @@ Nel progetto è stata utilizzata solo una minima parte del programma, ovvero
 solo il comando \emph{identify}, che permette di recuperare i metadati dai file
 di formato \emph{EPS, PS e AI}. \cite{imagemagick}
 
+\subsubsection{Exiftool}
+
+\emph{Exiftool} è un \emph{software} \emph{open source} per la lettura e la
+scrittura dei metadati presenti nei file. Nel progetto è stato utilizzato per
+recuperare i \emph{metadati} da tutte le immagini analizzate dal servizio, ad
+eccezione dei file di formato \emph{EPS, PS e AI}, che vengono gestiti da
+\emph{Imagemagick}.\cite{exiftool}
+
 \newpage
 \section{Struttura del sistema}
 
@@ -184,18 +197,18 @@ specifico, il progetto segue la struttura qui descritta:
 
 Il file \emph{buildspec} è un file di configurazione che contiene la definizione
 dello \emph{stack} di risorse da generare su \glsfirstoccur\gls{AWS
-    Cloudformation}. \\
+      Cloudformation}. \\
 Dopo aver effettuato tutti i comandi all'interno del file \emph{buildspec},
 viene avviato il processo di \emph{deploy} delle risorse \emph{AWS} definite nel
 file \emph{infra.go}. Il file \emph{buildspec} è un file di tipo \emph{YAML},
 formato dalle seguenti sezioni:
 \begin{itemize}
-    \item La sezione \emph{env}, dove vengono specificate le variabili
-          d'ambiente utilizzate nel progetto;
-    \item la sezione \emph{pre-build}, dove vengono specificati i comandi da
-          eseguire prima della \emph{build} del progetto;
-    \item la sezione \emph{build}, dove viene specificato il comando per il
-          \emph{deploy} del progetto.
+      \item La sezione \emph{env}, dove vengono specificate le variabili
+            d'ambiente utilizzate nel progetto;
+      \item la sezione \emph{pre-build}, dove vengono specificati i comandi da
+            eseguire prima della \emph{build} del progetto;
+      \item la sezione \emph{build}, dove viene specificato il comando per il
+            \emph{deploy} del progetto.
 \end{itemize}
 
 \subsubsection{\emph{Infra}}
@@ -205,17 +218,17 @@ Il file \emph{infra.go}, presente all'interno della cartella \emph{infra}, è un
 generare.\\
 Qui sono state definite le seguenti risorse:
 \begin{itemize}
-    \item due \emph{bucket S3}, uno dove caricare le immagini da convertire,
-          detto \emph{input}, l'altro dove caricare le immagini convertite, detto
-          \emph{output};
-    \item due tabelle \emph{DynamoDB}, una dove salvare le informazioni legate
-          alle conversioni effettuate, detta \emph{jobs}, l'altra dove sono salvate le
-          configurazioni delle conversioni da effettuare, detta \emph{client-conf};
-    \item una funzione \emph{Lambda}, detta \emph{converter}, che esegue il
-          codice presente nel file \emph{main.go}, all'interno della cartella
-          \emph{cmd}. La funzione \emph{Lambda} invoca un \glsfirstoccur\gls{container}
-          \glsfirstoccur\gls{docker} che permette di eseguire il codice legato
-          alla conversione.
+      \item due \emph{bucket S3}, uno dove caricare le immagini da convertire,
+            detto \emph{input}, l'altro dove caricare le immagini convertite, detto
+            \emph{output};
+      \item due tabelle \emph{DynamoDB}, una dove salvare le informazioni legate
+            alle conversioni effettuate, detta \emph{jobs}, l'altra dove sono salvate le
+            configurazioni delle conversioni da effettuare, detta \emph{client-conf};
+      \item una funzione \emph{Lambda}, detta \emph{converter}, che esegue il
+            codice presente nel file \emph{main.go}, all'interno della cartella
+            \emph{cmd}. La funzione \emph{Lambda} invoca un \glsfirstoccur\gls{container}
+            \glsfirstoccur\gls{docker} che permette di eseguire il codice legato
+            alla conversione.
 \end{itemize}
 
 \subsubsection{Dockerfile}
@@ -237,15 +250,24 @@ scrittura della \emph{business logic} del servizio e delle risorse necessarie al
 suo funzionamento. \\
 Il sistema prevede l'utilizzo di tre tipi di risorsa \emph{AWS}:
 \begin{itemize}
-    \item \textbf{\emph{Lambda:}} è la funzione che si occupa di eseguire la
-          \emph{business logic} del codice e di inviare e ricevere i dati dalle altre risorse
-          previste. Questa funzione si occupa di ;
-    \item \textbf{\emph{DynamoDB:}} è il database \emph{NoSQL} che si occupa di
-          mantenere le informazioni legate alla configurazione delle conversioni da
-          effettuare e quelle legate alle conversioni eseguite dalla \emph{Lambda};
-    \item \textbf{\emph{S3:}} è lo spazio di \emph{storage} che si occupa di
-          mantenere le immagini da convertire e quelle convertite.
+      \item \textbf{\emph{Lambda:}} è la funzione che si occupa di eseguire la
+            \emph{business logic} del codice e di inviare e ricevere i dati dalle altre risorse
+            previste. Questa funzione si occupa di ;
+      \item \textbf{\emph{DynamoDB:}} è il database \emph{NoSQL} che si occupa di
+            mantenere le informazioni legate alla configurazione delle conversioni da
+            effettuare e quelle legate alle conversioni eseguite dalla \emph{Lambda};
+      \item \textbf{\emph{S3:}} è lo spazio di \emph{storage} che si occupa di
+            mantenere le immagini da convertire e quelle convertite.
 \end{itemize}
+
+A seguire viene presentato il diagramma di flusso con le risorse utilizzate, al
+fine di comprendere meglio il funzionamento del sistema.
+\begin{figure}[H]
+      \centering
+      \includegraphics[width=1\textwidth]{images/diagramma-flusso.png}
+      \caption{Diagramma di flusso del sistema}
+      \label{fig:diagramma-flusso}
+\end{figure}
 
 \subsection{Confronto con l'architettura precedente}
 
@@ -253,25 +275,25 @@ Essendo il progetto di stage destinato alla sostituzione di un servizio
 attualmente in produzione, è stato necessario confrontare l'architettura
 esistente con quella proposta. Le principali differenze sono le seguenti:
 \begin{itemize}
-    \item \textbf{\emph{deprecazione delle step-function:}} il servizio attuale
-          prevede l'utilizzo di \emph{AWS Step Functions}, un servizio che si occupa
-          di orchestrare i servizi ad esso legati. L'implementazione di questo
-          servizio viene realizzata tramite una macchina a stati, che gestisce il
-          flusso di esecuzione in base agli eventi ricevuti. Tra gli eventi
-          ricevuti si evidenzia la presenza di una chiamata che permette di
-          pulire dall' \glsfirstoccur\gls{EFS} (\emph{Elastic File System}) le
-          immagini convertite. \\
-          Nel progetto di stage è stato deciso di rimuovere l'utilizzo delle
-          \emph{step-functions} per semplificare il flusso della conversione e
-          rendere il sistema più semplice da mantenere e da migliorare;
-    \item \textbf{\emph{deprecazione dell'EFS:}} il servizio attuale prevede
-          l'utilizzo di \emph{EFS} per gestire le immagini da convertire e le
-          immagini convertite. \\
-          Nel progetto di stage è stato deciso di rimuovere l'utilizzo di \emph{EFS}, in
-          quanto la responsabilità della gestione dell'immagine in ambiente
-          \emph{serverless} viene delegata completamente al processo eseguito
-          dalla \emph{Lambda}, ed eventuali file temporanei non devono più
-          essere gestiti manualmente.
+      \item \textbf{\emph{deprecazione delle step-function:}} il servizio attuale
+            prevede l'utilizzo di \emph{AWS Step Functions}, un servizio che si occupa
+            di orchestrare i servizi ad esso legati. L'implementazione di questo
+            servizio viene realizzata tramite una macchina a stati, che gestisce il
+            flusso di esecuzione in base agli eventi ricevuti. Tra gli eventi
+            ricevuti si evidenzia la presenza di una chiamata che permette di
+            pulire dall' \glsfirstoccur\gls{EFS} (\emph{Elastic File System}) le
+            immagini convertite. \\
+            Nel progetto di stage è stato deciso di rimuovere l'utilizzo delle
+            \emph{step-functions} per semplificare il flusso della conversione e
+            rendere il sistema più semplice da mantenere e da migliorare;
+      \item \textbf{\emph{deprecazione dell'EFS:}} il servizio attuale prevede
+            l'utilizzo di \emph{EFS} per gestire le immagini da convertire e le
+            immagini convertite. \\
+            Nel progetto di stage è stato deciso di rimuovere l'utilizzo di \emph{EFS}, in
+            quanto la responsabilità della gestione dell'immagine in ambiente
+            \emph{serverless} viene delegata completamente al processo eseguito
+            dalla \emph{Lambda}, ed eventuali file temporanei non devono più
+            essere gestiti manualmente.
 \end{itemize}
 
 Queste scelte architetturali portano tuttavia ad una limitazione rispetto al servizio
@@ -282,15 +304,15 @@ la funzione \emph{Lambda} ha una capacità di memoria massima pari a 10240
 superiore.\\
 Questa è considerata una limitazione facilmente superabile per due motivi:
 \begin{itemize}
-    \item il limite di memoria utilizzabile dalla funzione \emph{Lambda} può essere
-          contrattato con \emph{AWS}, nel caso vi fosse la necessità di gestire immagini
-          con peso superiore al limite attuale;
-    \item secondo una analisi delle conversioni effettuate dal servizio attuale,
-          prendendo in considerazione tutte le immagini caricate nella piattaforma
-          durante il mese di settembre 2023, è stato identificato che il peso medio di
-          un'immagine equivale a 9,02 \emph{MB}, con un peso massimo raggiunto di 2,03
-          \emph{GB}: entrambe le dimensioni sono ampiamente al di sotto della quota di
-          memoria prevista per la funzione \emph{Lambda}.
+      \item il limite di memoria utilizzabile dalla funzione \emph{Lambda} può essere
+            contrattato con \emph{AWS}, nel caso vi fosse la necessità di gestire immagini
+            con peso superiore al limite attuale;
+      \item secondo una analisi delle conversioni effettuate dal servizio attuale,
+            prendendo in considerazione tutte le immagini caricate nella piattaforma
+            durante il mese di settembre 2023, è stato identificato che il peso medio di
+            un'immagine equivale a 9,02 \emph{MB}, con un peso massimo raggiunto di 2,03
+            \emph{GB}: entrambe le dimensioni sono ampiamente al di sotto della quota di
+            memoria prevista per la funzione \emph{Lambda}.
 \end{itemize}
 
 
