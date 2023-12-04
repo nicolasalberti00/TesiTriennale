@@ -22,13 +22,19 @@ I diagrammi dei casi d'uso (in inglese \emph{Use Case Diagram}) sono diagrammi d
 alla descrizione delle funzioni o servizi offerti da un sistema, così come sono
 percepiti e utilizzati dagli attori che interagiscono col sistema stesso.
 Essendo il progetto finalizzato alla creazione di un servizio che richiede
-attualmente solo un', i diagrammi risultano semplici ed in numero ridotto.
+attualmente solo un'intervento minimo da parte dell'utente, i diagrammi risultano semplici ed in numero ridotto.
 
 \subsection{Descrizione del sistema}
 Di seguito viene rappresentato un diagramma riassuntivo che mostra i casi d'uso
 individuati e le relazioni tra essi.
 
 \begin{usecase}{1}{Recupero dell'immagine}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{images/uc1.png}
+        \caption{UC$1$ - Recupero dell'immagine}
+    \end{figure}
+    \label{fig:uc1}
     \usecaseactors{\emph{Lambda}, \emph{bucket S3} di input delle immagini}
     \usecasepre{La funzione \emph{Lambda} è pronta per l'esecuzione e l'immagine da convertire è caricata nel \emph{bucket S3} di \emph{input}}
     \usecasedesc{All'interno della \emph{Lambda} viene effettuata una richiesta con il nome dell'immagine al \emph{bucket S3} e viene effettuato il download nella memoria interna della \emph{Lambda}}
@@ -37,6 +43,11 @@ individuati e le relazioni tra essi.
 \end{usecase}
 
 \begin{usecase}{2}{Recupero configurazione della conversione}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{images/uc2.png}
+        \caption{UC$2$ - Recupero configurazione della conversione}
+    \end{figure}
     \usecaseactors{\emph{Lambda}, tabella \emph{DynamoDB}}
     \usecasepre{La funzione Lambda è pronta per l'esecuzione e la configurazione della conversione è salvata nella tabella \emph{DynamoDB}}
     \usecasedesc{All'interno della Lambda viene effettuata una richiesta con l'ID del cliente che ha richiesto la conversione alla tabella \emph{DynamoDB} contenente le configurazioni, suddivise per cliente, e vengono impostate le specifiche desiderate}
@@ -46,6 +57,11 @@ individuati e le relazioni tra essi.
 \end{usecase}
 
 \begin{usecase}{3}{Esecuzione della conversione}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.3\textwidth]{images/uc3.png}
+        \caption{UC$3$ - Esecuzione della conversione}
+    \end{figure}
     \usecaseactors{\emph{Lambda}}
     \usecasepre{La funzione \emph{Lambda} è pronta per l'esecuzione, l'immagine da convertire e la configurazione sono state salvate nella memoria temporanea della Lambda}
     \usecasedesc{La funzione \emph{Lambda} effettua la conversione dell'immagine
@@ -59,6 +75,11 @@ individuati e le relazioni tra essi.
 \end{usecase}
 \begin{usecase}
     {4}{Salvataggio dell'immagine convertita}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{images/uc4.png}
+        \caption{UC$4$ - Salvataggio dell'immagine convertita}
+    \end{figure}
     \usecaseactors{\emph{Lambda}, \emph{bucket S3} di output delle immagini}
     \usecasepre{La funzione \emph{Lambda} è pronta per iniziare l'\emph{upload} dell'immagine e l'immagine convertita è salvata nella memoria temporanea della \emph{Lambda}}
     \usecasedesc{La funzione \emph{Lambda} effettua il caricamento dell'immagine convertita nel \emph{Bucket S3} di output delle immagini, inserendola in una sottocartella contraddistinta dal nome del cliente che ha richiesto la conversione}
@@ -66,6 +87,11 @@ individuati e le relazioni tra essi.
     \label{uc:salvataggio-immagine}
 \end{usecase}
 \begin{usecase}{5}{Salvataggio caratteristiche della conversione}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{images/uc5.png}
+        \caption{UC$5$ - Salvataggio caratteristiche della conversione}
+    \end{figure}
     \usecaseactors{\emph{Lambda}, tabella \emph{DynamoDB} contenente tutte le conversioni effettuate}
     \usecasepre{La funzione Lambda è pronta per scrivere le caratteristiche
         della conversione in una tabella di \emph{DynamoDB} dedicata}
@@ -120,7 +146,6 @@ Nelle tabelle \ref{tab:requisiti-funzionali}, \ref{tab:requisiti-qualitativi} e
 \ref{tab:requisiti-vincolo} sono riassunti i requisiti e il loro tracciamento
 con i casi d'uso delineati in fase di analisi.
 
-\newpage
 
 \subsection{Requisiti funzionali}
 \begin{table}[H]
