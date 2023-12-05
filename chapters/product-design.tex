@@ -10,8 +10,8 @@
 
 Uno dei requisiti fondamentali da soddisfare durante il progetto di stage è
 quello riguardante la scrittura di test durante lo sviluppo del codice. In
-questa sezione verranno descritti i test di unità, effettuati al fine di garantire il corretto
-funzionamento delle singole componenti del sistema. \\
+questa sezione verranno descritti i test di unità, effettuati al fine di
+verificare che le singole componenti del sistema funzionassero nella maniera prevista. \\
 All'interno del codice, sia nei test, sia nel codice effettivo, sono state
 inserite delle variabili d'ambiente che permettono di sostituire il percorso
 legato ai profili colore utilizzati: così facendo si ha la possibilità di
@@ -79,7 +79,16 @@ riguardanti le conversioni e quelle riguardanti i \emph{DAO}.
     \end{tabularx}
 \end{table}
 
-\newpage
+I test effettuati sono stati utili per mostrare lacune ed errori nel codice
+scritto. Il codice delle funzioni testate non ha funzionato al primo tentativo,
+è stato necessario riscrivere più volte le funzioni per ottenere il risultato
+desiderato. \\
+La scrittura dei test, in generale, è risultata semplice ed intuitiva: ho
+utilizzato anche una caratteristica del linguaggio \emph{Go}, ossia i test
+\emph{table-driven}: è possibile specificare una tabella di test per eseguire
+più volte una stessa porzione di codice, con input differenti. Questo è
+risultato molto utile per testare più agevolmente le multiple combinazioni di
+conversioni possibili.
 
 \section{Test di sistema}
 
@@ -114,19 +123,19 @@ componenti e software aggiuntivi, che ora andrò ad elencare:
           cliente \emph{test-client}. Nello specifico le configurazioni sono state le
           seguenti:
           \begin{itemize}
-              \item \textbf{Configurazione "ORIGINAL":} larghezza impostata a 0,
-                    altezza impostata a 0, qualità impostata a 100. Si è deciso di
+              \item \textbf{Configurazione "ORIGINAL":} larghezza impostata a $0$,
+                    altezza impostata a $0$, qualità impostata a $100$. Si è deciso di
                     utilizzare come valore sentinella lo 0, così da poter verificare che
                     venissero utilizzate le dimensioni originali dell'immagine in ingresso
                     per la conversione;
-              \item \textbf{Confiurazione "4K":} larghezza impostata a 3840, altezza
-                    impostata a 2160, qualità impostata a 100;
-              \item \textbf{Configurazione "2K":} larghezza impostata a 2560, altezza
-                    impostata a 1440, qualità impostata a 100;
-              \item \textbf{Configurazione "FULLHD":} larghezza impostata a 1920,
-                    altezza impostata a 1080, qualità impostata a 100;
-              \item \textbf{Configurazione "HD":} larghezza impostata a 1280, altezza
-                    impostata a 720, qualità impostata a 100;
+              \item \textbf{Confiurazione "4K":} larghezza impostata a $3840$, altezza
+                    impostata a $2160$, qualità impostata a $100$;
+              \item \textbf{Configurazione "2K":} larghezza impostata a $2560$, altezza
+                    impostata a $1440$, qualità impostata a $100$;
+              \item \textbf{Configurazione "FULLHD":} larghezza impostata a $1920$,
+                    altezza impostata a $1080$, qualità impostata a $100$;
+              \item \textbf{Configurazione "HD":} larghezza impostata a $1280$, altezza
+                    impostata a $720$, qualità impostata a $100$;
           \end{itemize}
 \end{itemize}
 
@@ -254,3 +263,50 @@ Sono stati individuati i seguenti possbili miglioramenti:
           si potrebbe implementare un'\emph{API} che permetta di recuperare i
           \emph{job} salvati, restituendoli nella console amministrativa interna dell'azienda.
 \end{itemize}
+
+\section{Consuntivo finale}
+
+Di seguito viene riportato il diagramma di Gantt, aggiornato con le attività
+svolte.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/gantt.png}
+    \caption{Diagramma di Gantt aggiornato con le attività svolte}
+    \label{fig:gantt-finale}
+\end{figure}
+
+Di seguito vengono specificate le ore impiegate per ogni fase del progetto:
+\begin{itemize}
+    \item \textbf{Studio delle teconologie e del contesto funzionale:} per lo
+          studio delle tecnologie da utilizzare sono state impiegate $40$ ore, in
+          linea con il piano di lavoro iniziale;
+    \item \textbf{Studio di fattibilità e analisi dei requisiti:} per effettuare
+          l'analisi dei requisiti e lo studio di fattibilità sono state impiegate
+          $40$, in linea con quanto previsto dal piano di lavoro;
+    \item \textbf{Codifica ed implementazione del servizio:} per la fase di
+          codifica del servizio sono state impiegate $150$, $30$ in più rispetto a
+          quelle previste dal piano iniziale. Questo è dovuto al fatto che è stato
+          speso molto più tempo nella fase di codifica della \emph{Proof of Concept},
+          risultata poi fondamentale per lo sviluppo del servizio, in quanto ha
+          permesso di accelerare di molto la fase di sviluppo del servizio in ambiente
+          \emph{serverless};
+    \item \textbf{Test e sperimentazione:} per la fase di test e sperimentazione
+          sono state impiegate $34$ ore, $46$ ore in meno rispetto a quelle
+          preventivate. Il motivo di tale discrepanza è dovuto a due aspetti: il primo
+          riguarda i test, che sono stati scritti man mano che venivano sviluppate le
+          funzionalità del servizio e ciò ha permesso di recuperare tempo che è stato
+          impiegato nella fase di codifica per ottenere un codice più stabile. Il
+          secondo aspetto riguarda la sperimentazione, che è stata fatta in maniera
+          meno approfondita, preferendo la pulizia e la stabilità del codice scritto.
+    \item \textbf{Documentazione:} per la fase di scrittura della documentazione
+          sono state impiegate $40$ ore, in linea rispetto a quanto previsto nel piano
+          di lavoro iniziale.
+\end{itemize}
+
+In totale sono state impiegate $304$ ore per il progetto di stage, $16$ ore in
+meno rispetto alle $320$ previste inizialmente. Questo è da attribuirsi al fatto
+che lo stage è terminato il $30/11/2023$, anziché il $01/12/2023$, poichè era
+necessario che lo stage fosse terminato prima di tale data, al fine del
+riconoscimento dei crediti dell'attività. Inoltre il giorno $01/11/2023$ era un
+giorno di festività nazionale, che non è stato considerato nel piano di lavoro.

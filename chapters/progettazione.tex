@@ -12,7 +12,7 @@ progetto di stage.
 
 \subsection{Back-end}
 
-\subsubsection{Go}
+\subsubsection*{Go}
 
 Go è un linguaggio di programmazione \emph{open source} sviluppato da
 \emph{Google} nel 2007. È un linguaggio compilato, staticamente tipizzato e
@@ -32,7 +32,7 @@ funzioni o le variabili semplicemente scrivendo il nome con la lettera iniziale
 maiuscola: questo sistema permette di identificare a colpo d'occhio le funzioni
 o le variabili pubbliche, mantenendo il codice semplice da leggere e scrivere. \cite{go}
 
-\subsubsection{AWS CDK}
+\subsubsection*{AWS CDK}
 
 \emph{AWS Cloud Development Kit} (AWS CDK) è un \emph{framework} di sviluppo
 \emph{open-source} che permette di definire le risorse \emph{AWS} utilizzando
@@ -42,7 +42,7 @@ Nel progetto è stato utilizzato per definire lo \emph{stack} contenente le riso
 necessarie al funzionamento del servizio, come la funzione \emph{Lambda}, le
 tabelle \emph{DynamoDB} e i \emph{bucket S3}. \cite{go-aws-cdk}
 
-\subsubsection{AWS SDK}
+\subsubsection*{AWS SDK}
 
 \emph{AWS Software Developement Kit} (AWS SDK) è un insieme di librerie che
 permettono di interagire con i servizi \emph{AWS} utilizzando diversi linguaggi
@@ -51,7 +51,7 @@ programmazione \emph{Go}. \\
 Nel progetto è stato utilizzato per interagire con le risorse \emph{AWS}
 definite con \emph{AWS CDK}. \cite{go-aws-sdk}
 
-\subsubsection{AWS Lambda}
+\subsubsection*{AWS Lambda}
 
 \emph{AWS Lambda} è un servizio \emph{serverless} che permette di eseguire del
 codice senza dover gestire l'infrastruttura sottostante. Il servizio permette di
@@ -65,7 +65,7 @@ convertire da un \emph{bucket S3} e salvando il risultato in un secondo
 \emph{bucket S3}, dopo aver salvato le informazioni legate alla conversione in
 una seconda tabella \emph{DynamoDB}.
 
-\subsubsection{AWS DynamoDB}
+\subsubsection*{AWS DynamoDB}
 
 \emph{AWS DynamoDB} è un database \emph{NoSQL} completamente gestito, che
 supporta strutture di dati di tipo documento e di tipo chiave-valore. Questo
@@ -78,7 +78,7 @@ conversione. È stato inoltre utilizzato per salvare le configurazioni di
 conversione, come ad esempio il formato di output e la qualità dell'immagine
 convertita.
 
-\subsubsection{AWS S3}
+\subsubsection*{AWS S3}
 
 \emph{AWS S3} è un servizio di \emph{storage} completamente gestito, che
 permette di salvare e recuperare dati da una posizione di memoria detta
@@ -88,7 +88,7 @@ siti \emph{web} statici. \\
 Nel mio progetto è stato utilizzato per salvare le immagini da convertire e le
 immagini convertite.
 
-\subsubsection{AWS CloudWatch}
+\subsubsection*{AWS CloudWatch}
 
 \emph{AWS CloudWatch} è un servizio di monitoraggio e gestione delle risorse
 \emph{AWS} e delle applicazioni eseguite su \emph{AWS}. Il servizio permette di
@@ -100,13 +100,13 @@ raccogliere i \emph{log} presenti all'interno del codice eseguito dalla funzione
 
 \subsection{Versionamento}
 
-\subsubsection{Git}
+\subsubsection*{Git}
 
 \emph{Git} è un sistema di controllo di versione distribuito, utilizzato per
 tenere traccia delle modifiche effettuate al codice sorgente di un progetto
 \glsfirstoccur\gls{software}.
 
-\subsubsection{AWS CodeCommit}
+\subsubsection*{AWS CodeCommit}
 
 \emph{AWS CodeCommit} è un servizio di controllo di versione completamente
 gestito all'interno dell'ecosistema di \emph{AWS}, che permette di ospitare in modo sicuro e scalabile i \emph{repository}
@@ -114,7 +114,7 @@ gestito all'interno dell'ecosistema di \emph{AWS}, che permette di ospitare in m
 
 \subsection{Librerie e applicazioni esterne}
 
-\subsubsection{Libvips}
+\subsubsection*{Libvips}
 
 \emph{Libvips} è una libreria \emph{open source} per la manipolazione di immagini
 sviluppata in \emph{C}. La libreria è stata sviluppata per essere veloce e
@@ -128,7 +128,7 @@ l'orientamento presente dei \glsfirstoccur\gls{metadati}
 \glsfirstoccur\gls{EXIF} e permette di scalare un'immagine seguendo la larghezza
 e l'altezza desiderate. \cite{libvips}
 
-\subsubsection{GhostScript}
+\subsubsection*{GhostScript}
 
 \emph{GhostScript} è un interprete per il linguaggio di descrizione dei file
 \emph{PostScript} ed \emph{EPS} (\emph{Encapsulated PostScript}).
@@ -138,7 +138,7 @@ Questo interprete permette la conversione delle immagini dai formati \emph{PS,
 Nel progetto viene richiamato direttamente dal codice \emph{Go} per effettuare
 la conversione, specificando il formato di output desiderato. \cite{ghostscript}
 
-\subsubsection{Darktable}
+\subsubsection*{Darktable}
 
 \emph{Darktable} è un'applicazione \emph{open source} per la gestione e la
 modifica di immagini \emph{RAW}. Questa applicazione permette di convertire le
@@ -149,13 +149,13 @@ direttamente dal codice \emph{Go} del progetto.\\
 L'applicazione permette di applicare un profilo colore desiderato e di impostare
 la qualità dell'immagine convertita tramite un valore che varia da 0 a 100. \cite{darktable}
 
-\subsubsection{Go-psd}
+\subsubsection*{Go-psd}
 
 \emph{Go-psd} è una libreria \emph{open source} sviluppata in \emph{Go} che
 permette di leggere e scrivere file \emph{PSD} (\emph{Photoshop Document}),
 senza servirsi di \emph{software} esterni. \cite{go-psd}
 
-\subsubsection{Imagemagick}
+\subsubsection*{Imagemagick}
 
 \emph{Imagemagick} è un \emph{software} \emph{open source} per la manipolazione
 di immagini, che permette di convertire le immagini da un formato all'altro.
@@ -163,7 +163,7 @@ Nel progetto è stata utilizzata solo una minima parte del programma, ovvero
 solo il comando \emph{identify}, che permette di recuperare i metadati dai file
 di formato \emph{EPS, PS e AI}. \cite{imagemagick}
 
-\subsubsection{Exiftool}
+\subsubsection*{Exiftool}
 
 \emph{Exiftool} è un \emph{software} \emph{open source} per la lettura e la
 scrittura dei metadati presenti nei file. Nel progetto è stato utilizzato per
@@ -171,7 +171,6 @@ recuperare i \emph{metadati} da tutte le immagini analizzate dal servizio, ad
 eccezione dei file di formato \emph{EPS, PS e AI}, che vengono gestiti da
 \emph{Imagemagick}.\cite{exiftool}
 
-\newpage
 \section{Struttura del sistema}
 
 Il sistema è composto solamente dalla sezione \emph{back-end}, poiché
@@ -191,9 +190,9 @@ utilizzare tutte le risorse necessarie al servizio.
 
 Il progetto di stage necessita di cartelle e file per la configurazione
 dell'ambiente di sviluppo e per la configurazione del \emph{deploy}. Più nello
-specifico, il progetto segue la struttura qui descritta:
+specifico, il progetto segue la struttura qui descritta.
 
-\subsubsection{\emph{Buildspec}}
+\subsubsection*{\emph{Buildspec}}
 
 Il file \emph{buildspec} è un file di configurazione che contiene la definizione
 dello \emph{stack} di risorse da generare su \glsfirstoccur\gls{AWS
@@ -211,7 +210,7 @@ formato dalle seguenti sezioni:
             \emph{deploy} del progetto.
 \end{itemize}
 
-\subsubsection{\emph{Infra}}
+\subsubsection*{\emph{Infra}}
 
 Il file \emph{infra.go}, presente all'interno della cartella \emph{infra}, è un file di configurazione scritto in linguaggio
 \emph{Go}, che contiene la definizione dello \emph{stack} di risorse da
@@ -231,7 +230,7 @@ Qui sono state definite le seguenti risorse:
             alla conversione.
 \end{itemize}
 
-\subsubsection{Dockerfile}
+\subsubsection*{Dockerfile}
 
 Il file \emph{Dockerfile} è un file di configurazione che contiene la
 definizione di un \emph{container} \emph{Docker}, in cui sono presenti tutte le
