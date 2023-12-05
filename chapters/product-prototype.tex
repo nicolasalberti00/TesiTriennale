@@ -5,80 +5,54 @@
 
 \section{Codifica back-end}
 
-In questo capitolo verrà descritto il processo di codifica \emph{back-end} del
-progetto di stage. Verranno elencate tutte le funzionalità e la struttura del
-codice implementato.
+Per approcciarmi alla codifica del progetto di stage, sono partito con la
+definizione delle configurazioni: questo è stato il primo passo verso la
+creazione del servizio.
 
 \subsection{Config}
 
 All'interno di questa cartella è presente il file di configurazione utilizzato
-dal servizio. Di seguito la descrizione dello stesso. \\
-In questo file è contenuta la configurazione necessaria al funzionamento del servizio.
-Esso contiene al suo interno le variabili d'ambiente che verranno utilizzate
-dalla funzione \emph{Lambda} per recuperare i nomi delle tabelle \emph{DynamoDB}
-e i nomi dei \emph{bucket S3} dove verranno recuperate e salvate le immagini.
+dal servizio. In questo file sono state inserite delle variabili d'ambiente, il
+metodo più semplice all'interno di una funzione \emph{Lambda} per recuperare i nomi delle tabelle \emph{DynamoDB}
+e i nomi dei \emph{bucket S3} dove verranno scaricate e infine salvate le immagini.
 
 \subsection{Clients}
-
-All'interno di questa cartella è presente il file che definisce le funzioni per
-utilizzare i \emph{client} di \emph{DynamoDB} e \emph{S3}. Si dividono in funzioni \emph{remote} e
-\emph{local}, più nello specifico:
+Successivamente ho avuto la necessità di comunicare con i \emph{bucket} e i
+\emph{database}. Per fare ciò ho implementato due tipi di \emph{client}, quelli
+\emph{remote} e quelli \emph{local}. È stato molto utile dividere le
+funzionalità dei \emph{client}, perché mi ha permesso di avere più flessibilità durante
+la codifica dei test. Di seguito spiego più in dettaglio le differenze:
 \begin{itemize}
-      \item \textbf{remote}: funzioni che utilizzano i \emph{client} di
+      \item \textbf{remote}: sono le funzioni che utilizzano i \emph{client} di
             \emph{DynamoDB} e \emph{S3} per recuperare e salvare i dati nell'ambiente
             \emph{sandbox}. Queste funzioni utilizzano la configurazione di
             \emph{default} per accedere ai servizi \emph{AWS};
-      \item \textbf{local}: funzioni che utilizzano i \emph{client} di
+      \item \textbf{local}: sono le funzioni che utilizzano i \emph{client} di
             \emph{DynamoDB} e \emph{S3} per recuperare e salvare i dati nell'ambiente di
             \emph{test} in locale. Queste funzioni utilizzano una configurazione vuota,
             senza credenziali, che punta ad un \emph{endpoint} locale.
 \end{itemize}
 
-\subsection{Cmd}
-
-All'interno di questa cartella è presente il file che definisce le funzioni per
-avviare la \emph{Lambda}. Qui è presente la struttura che definisce un evento di conversione, nello
-specifico è così rappresentata:
-\begin{lstlisting}[language=go]
-    type ImageConversionEvent struct {
-        Filename string `json:"filename"`
-	ClientID string `json:"clientID"`
-    }
-\end{lstlisting}
-
-\captionof{lstlisting}{Struttura di un evento di conversione}
-
-Nello specifico vengono definiti:
-\begin{itemize}
-      \item \textbf{Filename}: nome del file da convertire;
-      \item \textbf{ClientID}: identificativo del cliente che ha richiesto la
-            conversione.
-\end{itemize}
-Entrambi vengono recuperati da un file \emph{JSON} che viene passato alla
-funzione \emph{Lambda}: questo file nel progetto di stage viene inserito
-manualmente, in un ambiente di produzione verrà fornito da un servizio
-esterno.\\
-Nella funzione \emph{main} viene recuperata la configurazione desiderata e
-vengono istanziati i \glsfirstoccur\gls{DAO}, gli oggetti che permettono di
-interagire con i servizi \emph{S3} e \emph{DynamoDB}. Successivamente viene
-inizializzato il servizio che effettua la conversione delle immagini e viene
-passato alla funzione \emph{Lambda}.
-
 \subsection{DAL}
 
-All'interno di questa cartella sono presenti i file che gestiscono gli accessi
-agli oggetti presenti nei \emph{bucket S3} e nei \emph{database DynamoDB}.
+Una volta definiti i metodi per stabilire la comunicazione con le risorse
+\emph{AWS}, è stato necessario definire un metodo per recuperare i dati da
+queste risorse. Una prima idea è stata quella di gestire lo scambio di dati
+attraverso l'utilizzo diretto di un \emph{client}. Questo approccio, seppur
+molto semplice e diretto, poteva portare ad un accoppiamento eccessivo tra le
+parti del servizio, oltre che ad una vasta ripetizione di codice per ogni
+operazione effettuata. Per questo motivo, dopo un confronto con il tutor
+aziendale, è stato deciso di utilizzare il \emph{design pattern} \emph{DAO} per
+gestire l'accesso ai dati. Questo metodo, nonostante preveda comunque della
+ripetizione di codice, permette di aggiungere un livello di astrazione tra le
+due parti che devono comunicare, rendendo più semplice la gestione di eventuali
+cambiamenti: non sarà più necessario modificare il servizio, ma basterà
+modificare solamente il \emph{DAO}.
 
 \subsubsection{\emph{client configuration DAO}}
 
 Questo file contiene la struttura che definisce un \emph{DAO} per il recupero di
-una configurazione di un cliente. Con il \emph{DAO} si aggiunge un livello di
-astrazione tra due parti di una applicazione che devono lavorare a stretto
-contatto, restando indipendenti l'una dall'altra.\\
-Questo \emph{design pattern} permette inoltre di separare la logica di accesso
-ai servizi con cui si interfaccia, così nel caso in cui si volesse cambiare il
-servizio sottostante si dovrà solamente cambiare il \emph{DAO} e non l'intera
-applicazione. La struttura di una configurazione è la seguente:
+una configurazione di un cliente. La struttura di una configurazione è la seguente:
 \begin{lstlisting}[language=go]
 type ClientConfiguration struct {
         ConfigurationName string `dynamodbav:"ConfigurationName"`
@@ -88,12 +62,18 @@ type ClientConfiguration struct {
     }
 \end{lstlisting}
 L'attributo \emph{dynamodbav} permette al \emph{client} di \emph{DynamoDB} di
-mappare i campi della struttura con i campi della tabella.\\
+mappare i campi della struttura con i campi della tabella. Inizalmente, durante
+lo sviluppo in locale, ho utilizzato l'attributo \emph{json}: una volta testato
+il codice nell'ambiente \emph{sandbox} il servizio non riusciva più ad
+identificare i campi della struttura costruita. Ricontrollando la documentazione
+ho individuato il problema ed è stato risolto velocemente.
 
 \subsubsection{\emph{conversions bucket DAO}}
 
 Questo file contiene la struttura che definisce un \emph{DAO} per effettuare il
-\emph{download} e l'\emph{upload} di un file da un \emph{bucket S3}. La funzione
+\emph{download} e l'\emph{upload} di un file da un \emph{bucket S3}. È risultato
+semplice creare queste due funzioni, in quanto la documentazione e gli esempi di
+\emph{AWS} hanno mostrato in maniera chiara come gestire le due operazioni. La funzione
 di \emph{download} prende in input tre parametri:
 \begin{itemize}
       \item \textbf{clientID:} identificativo del cliente che ha richiesto la
@@ -103,7 +83,7 @@ di \emph{download} prende in input tre parametri:
 \end{itemize}
 
 Viene individuato il file all'interno del \emph{bucket S3} delle immagini da convertire, che si trova nella
-cartella specificata dal \emph{clientID}. Successivamente viene effettuata una
+cartella specificata dal \emph{clientID}. Una volta individuato il file viene effettuata una
 copia del file in un percorso locale e viene restituito il percorso del file
 appena salvato.\\
 
@@ -113,8 +93,12 @@ La funzione di \emph{upload} prende in input due parametri:
             conversione;
       \item \textbf{filename:} nome del file da caricare.
 \end{itemize}
-Grazie a questi due parametri viene effettuato il caricamento del file nel
-\emph{bucket} destinato alle immagini convertite.
+Ogni file nei \emph{bucket} viene
+identificato da una \emph{ObjectKey}: questa chiave è arbitraria e viene
+definita nel momento in cui si effettua il caricamento di un file. Nel nostro
+caso è risultato più comodo inserire anche il \emph{clientID} all'interno della chiave,
+poiché è stato possibile creare automaticamente una cartella con l'ID del cliente desiderato
+in cui inserire le immagini. \\
 
 \subsubsection{\emph{image conversion jobs DAO}}
 
@@ -161,24 +145,23 @@ Un esempio di come viene visualizzato un \emph{job} all'interno del
       \caption{Esempio di un \emph{job} all'interno del \emph{database DynamoDB}}
 \end{figure}
 
+
 \subsection{Service}
 
-In questa cartella viene definito il file principale del servizio, che contiene
-il flusso di conversione delle immagini.
-
-\subsubsection{\emph{image conversion service}}
-
-In questo file viene definito tutto il flusso di conversione dell'immagine che
-verrà poi gestito dalla \emph{Lambda}.\\
-Sono state definite delle strutture che contengono tutti i formati gestiti dal
+Una volta preparate le risorse per gestire tutti gli aspetti della conversione,
+si è reso necessario sviluppare il vero e proprio servizio di conversione.
+Per gestire nella maniera più efficiente le conversioni, ho definito delle strutture che contengono tutti i formati gestiti dal
 servizio, suddivisi per libreria che gestisce la conversione. Questi vengono
 utilizzati per effettuare i controlli utilizzati come guardia per scegliere la
-conversione adatta al formato richiesto. Per accelerare il processo di
-conversione, seguendo il principio \emph{fail fast}, se il formato in ingresso
-non è presente nelle strutture viene interrotto il flusso e viene restituito un
+conversione adatta al formato richiesto. Questa scelta permette inoltre di
+aggiungere con facilità nuovi formati di immagine, qualora il servizio che ha il
+compito di convertirli sia stato aggiornato per supportarli. \\
+Per accelerare il processo di
+conversione, ho seguito il principio \emph{fail fast}: se il formato in ingresso
+non è presente nelle strutture viene interrotto il flusso di conversione e viene restituito un
 errore. Nella tabella contenente i \emph{job} di conversione, sarà presente
 anche un campo dedicato a mostrare la causa dell'errore avvenuto.\\
-Se il formato è accettato, viene verificato se è in atto un tentativo di
+Successivamente, se il formato è accettato, viene verificato se è in atto un tentativo di
 \emph{upscaling} dell'immagine, confrontando le dimensioni dell'immagine con
 quelle richieste dalla configurazione: se sta per essere effettuato, viene
 saltata la conversione per quel formato e viene restituito un messaggio di
@@ -186,20 +169,61 @@ saltata la conversione per quel formato e viene restituito un messaggio di
 Viene effettuata la conversione utilizzando il metodo adatto al formato in
 ingresso ed infine viene caricata l'immagine nel \emph{bucket} di output ed
 aggiornata la tabella contenente i \emph{job} delle conversioni.\\
+Questa è stata la parte principale del processo di codifica, che è stata molto
+agevolata grazie allo sviluppo della \emph{PoC}: ho potuto riutilizzare le circa
+cinquecento righe di codice scritte in precedenza per gestire tutte le
+conversioni. Oltre alla parte delle conversioni ho dedicato del tempo a rendere
+più pulito il codice, identificando le parti di codice ripetute e separandole
+all'interno del file \emph{utils}, che definirò successivamente.
+
+\subsection{Cmd}
+
+Per eseguire il servizio appena descritto, è necessario un file che contiene la
+vera e propria esecuzione della \emph{Lambda}. Nel file \emph{main.go} oltre
+alle funzioni per gestire l'esecuzione del processo di conversione, è presente
+la struttura che definisce un evento di conversione, che viene qui
+rappresentata:
+\clearpage
+\begin{lstlisting}[language=go]
+    type ImageConversionEvent struct {
+        Filename string `json:"filename"`
+	ClientID string `json:"clientID"`
+    }
+\end{lstlisting}
+
+\captionof{lstlisting}{Struttura di un evento di conversione}
+
+Nello specifico vengono definiti:
+\begin{itemize}
+      \item \textbf{Filename}: nome del file da convertire;
+      \item \textbf{ClientID}: identificativo del cliente che ha richiesto la
+            conversione.
+\end{itemize}
+Entrambi vengono recuperati da un file \emph{JSON} che viene passato alla
+funzione \emph{Lambda}: questo file nel progetto di stage viene inserito
+manualmente, in un ambiente di produzione verrà fornito da un servizio
+esterno.\\
+Nella funzione \emph{main} viene scaricata dal \emph{database} la configurazione desiderata e
+vengono istanziati i \glsfirstoccur\gls{DAO}, per poter
+interagire con i servizi \emph{S3} e \emph{DynamoDB}. Infine viene
+inizializzato il servizio che effettua la conversione delle immagini e viene
+passato alla funzione \emph{Lambda}. \\
+Tutte queste operazioni richiedono poche righe di codice grazie al pacchetto
+\emph{SDK} fornito da \emph{AWS} per \emph{Go}: è stato molto semplice e diretto
+scrivere il codice per questa parte del progetto.
 
 
 \subsection{Utils}
 
-In questa cartella è definito un file che contiene le funzioni di utilità che
-sono state sfruttate in tutto il progetto.
-
-\subsubsection{\emph{utils}}
-
-In questo file sono presenti le funzioni che devono svolgere compiti ripetitivi
-e per offrire metodi più semplici di interagire con altri programmi. Ogni
+Come accennato in precedenza, in questo file sono presenti le funzioni che devono svolgere compiti ripetitivi
+oppure offrono metodi più semplici per interagire con programmi esterni alle
+librerie di \emph{Go}. Ogni
 funzione, se non specificato diversamente, ritorna sempre un errore nel caso in
-cui le operazioni richieste non vadano a buon fine. Le funzioni
-definite sono le seguenti:
+cui le operazioni richieste non vadano a buon fine. Questo file è stato frutto
+di una attività di \glsfirstoccur\gls{refactoring} del codice, che ha permesso
+di
+rendere più pulito il codice e di rendere più semplice la lettura dello stesso.
+Le funzioni definite sono le seguenti:
 \begin{itemize}
       \item \emph{ExecuteCommand:} questa funzione permette di eseguire un
             comando come se si fosse in un terminale, specificando il nome del
