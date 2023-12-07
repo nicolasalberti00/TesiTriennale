@@ -43,7 +43,7 @@ attraverso l'utilizzo diretto di un \emph{client}. Questo approccio, seppur
 molto semplice e diretto, poteva portare ad un accoppiamento eccessivo tra le
 parti del servizio, oltre che ad una vasta ripetizione di codice per ogni
 operazione effettuata. Per questo motivo, dopo un confronto con il tutor
-aziendale, è stato deciso di utilizzare il \emph{design pattern} \emph{DAO} per
+aziendale, è stato deciso di utilizzare il \emph{design pattern} \glsfirstoccur\gls{DAO} per
 gestire l'accesso ai dati. Questo metodo, nonostante preveda comunque della
 ripetizione di codice, permette di aggiungere un livello di astrazione tra le
 due parti che devono comunicare, rendendo più semplice la gestione di eventuali
@@ -96,7 +96,7 @@ La funzione di \emph{upload} prende in input due parametri:
 \end{itemize}
 Ogni file nei \emph{bucket} viene
 identificato da una \emph{ObjectKey}: questa chiave è arbitraria e viene
-definita nel momento in cui si effettua il caricamento di un file. Nel nostro
+definita nel momento in cui si effettua il caricamento di un file. Nel mio
 caso è risultato più comodo inserire anche il \emph{clientID} all'interno della chiave,
 poiché è stato possibile creare automaticamente una cartella con l'ID del cliente desiderato
 in cui inserire le immagini. \\
@@ -153,11 +153,11 @@ Un esempio di come viene visualizzato un \emph{job} all'interno del
 Una volta preparate le risorse per gestire tutti gli aspetti della conversione,
 si è reso necessario sviluppare il vero e proprio servizio di conversione.
 Per gestire nella maniera più efficiente le conversioni, ho definito delle strutture che contengono tutti i formati gestiti dal
-servizio, suddivisi per libreria che gestisce la conversione. Questi vengono
+servizio, suddivisi in base alla libreria che gestisce la conversione. Questi vengono
 utilizzati per effettuare i controlli utilizzati come guardia per scegliere la
 conversione adatta al formato richiesto. Questa scelta permette inoltre di
-aggiungere con facilità nuovi formati di immagine, qualora il servizio che ha il
-compito di convertirli sia stato aggiornato per supportarli. \\
+aggiungere con facilità nuovi formati di immagine, qualora la libreria che ha il
+compito di convertirli sia stata aggiornata per supportarli. \\
 Per accelerare il processo di
 conversione, ho seguito il principio \emph{fail fast}: se il formato in ingresso
 non è presente nelle strutture viene interrotto il flusso di conversione e viene restituito un
@@ -166,7 +166,7 @@ anche un campo dedicato a mostrare la causa dell'errore avvenuto.\\
 Successivamente, se il formato è accettato, viene verificato se è in atto un tentativo di
 \emph{upscaling} dell'immagine, confrontando le dimensioni dell'immagine con
 quelle richieste dalla configurazione: se sta per essere effettuato, viene
-saltata la conversione per quel formato e viene restituito un messaggio di
+saltata la conversione per quel formato e viene salvato nei log un messaggio di
 \emph{warning} per avvisare che quella conversione non verrà eseguita.\\
 Viene effettuata la conversione utilizzando il metodo adatto al formato in
 ingresso ed infine viene caricata l'immagine nel \emph{bucket} di output ed
@@ -203,7 +203,7 @@ funzione \emph{Lambda}: questo file nel progetto di stage viene inserito
 manualmente, in un ambiente di produzione verrà fornito da un servizio
 esterno.\\
 Nella funzione \emph{main} viene scaricata dal \emph{database} la configurazione desiderata e
-vengono istanziati i \glsfirstoccur\gls{DAO}, per poter
+vengono istanziati i \emph{DAO} per poter
 interagire con i servizi \emph{S3} e \emph{DynamoDB}. Infine viene
 inizializzato il servizio che effettua la conversione delle immagini e viene
 passato alla funzione \emph{Lambda}. \\
@@ -263,7 +263,7 @@ Le funzioni definite sono le seguenti:
       \item \emph{RetrieveColorSpace:} questa funzione utilizza \emph{Exiftool} e
             i parametri \emph{-s3}, \emph{-ColorSpace}, \emph{filename} per recuperare
             lo spazio colore utilizzato dall'immagine. Nel caso in cui questo comando
-            ritorni il valore \emph{Uncalibrated}, viene rieseguito il \emph{Exiftool},
+            ritorni il valore \emph{Uncalibrated}, viene rieseguito \emph{Exiftool},
             questa volta con il comando \emph{-ColorSpaceData}, al fine di identificare
             lo spazio colore generale che è stato utilizzato.
       \item \emph{RescaleImage:} questa funzione utilizza la libreria \emph{vips}
@@ -274,8 +274,9 @@ Le funzioni definite sono le seguenti:
             eseguire il salvataggio su file.
       \item \emph{TransformICCProfile:} questa funzione utilizza \emph{vips} per
             applicare il profilo colore desiderato all'immagine. Sono utilizzati due
-            profili colore, uno di tipo \emph{sRGB} per tutti i profili colore
-            individuati, mentre l'altro viene utilizzato per le immagini che utilizzano
+            profili colore, uno di tipo \emph{sRGB} che viene applicato per ogni
+            immagine che non utilizza il profilo colore di tipo \emph{CMYK}, mentre l'altro viene utilizzato per le immagini
+            che utilizzano
             un profilo colore di tipo \emph{CMYK}: questo viene fatto per mantenere una
             rappresentazione uniforme dei colori a schermo.
       \item \emph{SaveImage:} questa funzione permette il salvataggio su file
@@ -286,14 +287,16 @@ Le funzioni definite sono le seguenti:
             utilizzato è quello relativo alla qualità dell'immagine, impostata in
             precedenza nella configurazione del cliente.
       \item \emph{CalculateNewResolution:} questa funzione viene utilizzata dalla
-            conversione dei formati \emph{PSD}. Per questi file vi è la necessità di
+            conversione dei formati \emph{PSD}. Per questi file ho avuto la necessità di
             calcolare un fattore di \emph{scaling} per mantenere il rapporto prospettico
-            dell'immagine, evitando eventuali deformazioni della stessa: questa operazione
-            viene effettuata poiché la libreria utilizzata per gestire questi formati
+            dell'immagine, evitando eventuali deformazioni della stessa: ho
+            eseguito questa verifica poiché la libreria utilizzata per gestire questi formati
             non effettua questo controllo.
             Il rapporto prospettico desiderato viene calcolato dividendo la larghezza desiderata per la larghezza originale
             dell'immagine e lo stesso viene fatto per l'altezza. Vengono poi confrontati
             i due fattori individuati e si utilizza quello più piccolo per effettuare la
             computazione della nuova risoluzione. Si effettua infine la moltiplicazione
-            della larghezza e della altezza di input per il fattore di \emph{scaling}
+            della larghezza e della altezza di input per il fattore di
+            \emph{scaling} individuato per ottenere la nuova risoluzione
+            dell'immagine che non altera il rapporto prospettico.
 \end{itemize}

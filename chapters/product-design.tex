@@ -43,15 +43,18 @@ riguardanti le conversioni e quelle riguardanti i \emph{DAO}.
     \centering
     \begin{tabularx}{\textwidth}{|c|c|X|c|}
         \hline
-        \textbf{Codice} & \textbf{Oggetto} & \textbf{Descrizione}                                                                                                                                                                             & \textbf{Esito} \\
+        \textbf{Codice}                  & \textbf{Oggetto} & \textbf{Descrizione}                                                                                                                                                                             & \textbf{Esito} \\
         \hline
-        \verb|TU1|      & VipsConversion   & Verifica del corretto funzionamento della conversione via libreria \emph{vips}, controllando che venisse impostata la risoluzione, il profilo colore, la qualità e il formato desiderati         & S              \\
+        \verb|TU1|                       & VipsConversion   & Verifica del corretto funzionamento della conversione via libreria \emph{vips}, controllando che venisse impostata la risoluzione, il profilo colore, la qualità e il formato desiderati         & S              \\
         \hline
-        \verb|TU2|      & PSDConversion    & Verifica del corretto funzionamento della conversione via libreria \emph{go-psd}, controllando che venisse impostata la risoluzione desiderata                                                   & S              \\
+        \verb|TU2|                       & PSDConversion    & Verifica del corretto funzionamento
+        della conversione via libreria \emph{go-psd}, controllando che venisse
+        impostata la risoluzione desiderata senza
+        alterare il rapporto prospettico & S                                                                                                                                                                                                                                    \\
         \hline
-        \verb|TU3|      & EPSConversion    & Verifica del corretto funzionamento della conversione via programma \emph{GhostScript}, controllando che venisse impostata la risoluzione desiderata                                             & S              \\
+        \verb|TU3|                       & EPSConversion    & Verifica del corretto funzionamento della conversione via programma \emph{GhostScript}, controllando che venisse impostata la risoluzione desiderata                                             & S              \\
         \hline
-        \verb|TU4|      & RAWConversion    & Verifica del corretto funzionamento della conversione via programma \emph{Darktable}, controllando che venissero impostate la risoluzione, il profilo colore, la qualità e il formato desiderati & S              \\
+        \verb|TU4|                       & RAWConversion    & Verifica del corretto funzionamento della conversione via programma \emph{Darktable}, controllando che venissero impostate la risoluzione, il profilo colore, la qualità e il formato desiderati & S              \\
         \hline
     \end{tabularx}
 \end{table}
@@ -81,7 +84,7 @@ riguardanti le conversioni e quelle riguardanti i \emph{DAO}.
 
 I test effettuati sono stati utili per mostrare lacune ed errori nel codice
 scritto. Il codice delle funzioni testate non ha funzionato al primo tentativo,
-è stato necessario riscrivere più volte le funzioni per ottenere il risultato
+ed è stato necessario riscrivere più volte le funzioni per ottenere il risultato
 desiderato. \\
 La scrittura dei test, in generale, è risultata semplice ed intuitiva: ho
 utilizzato anche una caratteristica del linguaggio \emph{Go}, ossia i test
@@ -125,7 +128,7 @@ componenti e software aggiuntivi, che ora andrò ad elencare:
           \begin{itemize}
               \item \textbf{Configurazione "ORIGINAL":} larghezza impostata a $0$,
                     altezza impostata a $0$, qualità impostata a $100$. Si è deciso di
-                    utilizzare come valore sentinella lo 0, così da poter verificare che
+                    utilizzare come valore sentinella lo $0$, così da poter verificare che
                     venissero utilizzate le dimensioni originali dell'immagine in ingresso
                     per la conversione;
               \item \textbf{Confiurazione "4K":} larghezza impostata a $3840$, altezza
@@ -184,8 +187,7 @@ due è stata realizzata per descrivere il funzionamento del servizio a tutto il
 team \emph{Contenuti}, fornendo informazioni utili a seguire il flusso della
 conversione e per fornire una guida su come viene utilizzato il servizio. La documentazione tecnica invece pone l'attenzione sui dettagli
 implementativi del codice ed è stata realizzata per fornire informazioni
-riguardanti il codice e le tecnologie utilizzate per le persone che lavorano
-nella parte di \emph{back-end} del team: così facendo chiunque si troverà a
+riguardanti il codice e le tecnologie utilizzate per chi lavora nel lato \emph{back-end} del team: così facendo chiunque si troverà a
 lavorare sul progetto potrà farlo in autonomia.\\
 La documentazione è stata validata dal tutor aziendale, che ha accompagnato il
 processo di stesura fornendo \emph{feedback} sulle parti da migliorare e
@@ -247,11 +249,11 @@ Al termine dell'attività di stage sono state individuate alcune possibili
 migliorie future, per ampliare il servizio e fornire maggiori funzionalità. \\
 Sono stati individuati i seguenti possbili miglioramenti:
 \begin{itemize}
-    \item \textbf{Implementazione di una \emph{dashboard} su CloudWatch:}
+    \item \textbf{Implementazione di una \emph{dashboard} su \emph{CloudWatch}:}
           attualmente il servizio permette il recupero di informazioni legate al
           servizio solo tramite \emph{query} al database \emph{DynamoDB}. Per ovviare
           a ciò sarebbe possibile definire una \emph{dashboard} su \emph{CloudWatch},
-          che permetta una rappresentazione visiva più efficace di metriche legate al
+          che possa offrire una rappresentazione visiva più efficace delle metriche legate al
           funzionamento del servizio. Tale \emph{dashboard} può essere utilizzata dal
           reparto tecnico per ottenere informazioni specifiche su aspetti essenziali
           della conversione, quali la durata minima, media e massima di elaborazione o
@@ -260,7 +262,7 @@ Sono stati individuati i seguenti possbili miglioramenti:
               salvati:} attualmente il servizio permette di recuperare i \emph{job} di
           conversione salvati tramite \emph{query} al database \emph{DynamoDB}. Al
           fine di poter recuperare in maniera più semplice e veloce tali informazioni,
-          si potrebbe implementare un'\emph{API} che permetta di recuperare i
+          si potrebbe implementare una \emph{API} che permetta di recuperare i
           \emph{job} salvati, restituendoli nella console amministrativa interna dell'azienda.
 \end{itemize}
 
@@ -283,16 +285,16 @@ Di seguito vengono specificate le ore impiegate per ogni fase del progetto:
           linea con il piano di lavoro iniziale;
     \item \textbf{Studio di fattibilità e analisi dei requisiti:} per effettuare
           l'analisi dei requisiti e lo studio di fattibilità sono state impiegate
-          $40$, in linea con quanto previsto dal piano di lavoro;
+          $40$ ore, in linea con quanto previsto dal piano di lavoro;
     \item \textbf{Codifica ed implementazione del servizio:} per la fase di
-          codifica del servizio sono state impiegate $150$, $30$ in più rispetto a
+          codifica del servizio sono state impiegate $150$ ore, $30$ in più rispetto a
           quelle previste dal piano iniziale. Questo è dovuto al fatto che è stato
           speso molto più tempo nella fase di codifica della \emph{Proof of Concept},
           risultata poi fondamentale per lo sviluppo del servizio, in quanto ha
           permesso di accelerare di molto la fase di sviluppo del servizio in ambiente
           \emph{serverless};
     \item \textbf{Test e sperimentazione:} per la fase di test e sperimentazione
-          sono state impiegate $34$ ore, $46$ ore in meno rispetto a quelle
+          sono state impiegate $34$ ore, $46$ in meno rispetto a quelle
           preventivate. Il motivo di tale discrepanza è dovuto a due aspetti: il primo
           riguarda i test, che sono stati scritti man mano che venivano sviluppate le
           funzionalità del servizio e ciò ha permesso di recuperare tempo che è stato
@@ -307,6 +309,7 @@ Di seguito vengono specificate le ore impiegate per ogni fase del progetto:
 In totale sono state impiegate $304$ ore per il progetto di stage, $16$ ore in
 meno rispetto alle $320$ previste inizialmente. Questo è da attribuirsi al fatto
 che lo stage è terminato il $30/11/2023$, anziché il $01/12/2023$, poichè era
-necessario che lo stage fosse terminato prima di tale data, al fine del
+necessario che lo stage fosse terminato prima di tale data, al fine di poter
+effettuare correttamente il
 riconoscimento dei crediti dell'attività. Inoltre il giorno $01/11/2023$ era un
 giorno di festività nazionale, che non è stato considerato nel piano di lavoro.

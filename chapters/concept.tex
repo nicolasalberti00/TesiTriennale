@@ -18,11 +18,12 @@ fornire uno strumento più mantenibile e scalabile rispetto al precedente.\\
 \section{Casi d'uso}
 
 Per lo studio dei casi di utilizzo del prodotto sono stati creati dei diagrammi.
-I diagrammi dei casi d'uso (in inglese \emph{Use Case Diagram}) sono diagrammi di tipo \gls{UML} dedicati
+I diagrammi dei casi d'uso (in inglese \emph{Use Case Diagram}) sono diagrammi
+di tipo \emph{UML} dedicati
 alla descrizione delle funzioni o servizi offerti da un sistema, così come sono
 percepiti e utilizzati dagli attori che interagiscono col sistema stesso.
 Essendo il progetto finalizzato alla creazione di un servizio che richiede
-attualmente solo un'intervento minimo da parte dell'utente, i diagrammi risultano semplici ed in numero ridotto.
+attualmente solo un intervento minimo da parte dell'utente, i diagrammi risultano semplici ed in numero ridotto.
 
 \subsection{Descrizione del sistema}
 Di seguito viene rappresentato un diagramma riassuntivo che mostra i casi d'uso
@@ -49,9 +50,9 @@ individuati e le relazioni tra essi.
         \caption{UC$2$ - Recupero configurazione della conversione}
     \end{figure}
     \usecaseactors{\emph{Lambda}, tabella \emph{DynamoDB}}
-    \usecasepre{La funzione Lambda è pronta per l'esecuzione e la configurazione della conversione è salvata nella tabella \emph{DynamoDB}}
-    \usecasedesc{All'interno della Lambda viene effettuata una richiesta con l'ID del cliente che ha richiesto la conversione alla tabella \emph{DynamoDB} contenente le configurazioni, suddivise per cliente, e vengono impostate le specifiche desiderate}
-    \usecasepost{La Lambda ha la configurazione della conversione salvata in memoria, al fine di procedere con la conversione}
+    \usecasepre{La funzione \emph{Lambda} è pronta per l'esecuzione e la configurazione della conversione è salvata nella tabella \emph{DynamoDB}}
+    \usecasedesc{All'interno della \emph{Lambda} viene effettuata una richiesta con l'\emph{ID} del cliente che ha richiesto la conversione alla tabella \emph{DynamoDB} contenente le configurazioni, suddivise per cliente, e vengono impostate le specifiche desiderate}
+    \usecasepost{La \emph{Lambda} ha la configurazione della conversione salvata in memoria, al fine di procedere con la conversione}
     \label{uc:recupero-configurazione}
 
 \end{usecase}
@@ -63,13 +64,13 @@ individuati e le relazioni tra essi.
         \caption{UC$3$ - Esecuzione della conversione}
     \end{figure}
     \usecaseactors{\emph{Lambda}}
-    \usecasepre{La funzione \emph{Lambda} è pronta per l'esecuzione, l'immagine da convertire e la configurazione sono state salvate nella memoria temporanea della Lambda}
+    \usecasepre{La funzione \emph{Lambda} è pronta per l'esecuzione, l'immagine da convertire e la configurazione sono state salvate nella memoria temporanea della \emph{Lambda}}
     \usecasedesc{La funzione \emph{Lambda} effettua la conversione dell'immagine
         secondo la configurazione desiderata. Se la conversione va a buon fine,
         l'immagine convertita viene salvata nella memoria temporanea della \emph{Lambda},
-        contraddistinta da un nome univoco, composto da un \emph{ID} univoco, il
+        contraddistinta da un nome composto da un \emph{ID} univoco, il
         nome dell'immagine e il nome della configurazione utilizzata}
-    \usecasepost{La Lambda ha l'immagine convertita nella sua memoria temporanea e vengono salvate le caratteristiche della conversione in una variabile}
+    \usecasepost{La \emph{Lambda} ha l'immagine convertita nella sua memoria temporanea e vengono salvate le caratteristiche della conversione in una variabile}
     \label{uc:esecuzione-conversione}
 
 \end{usecase}
@@ -82,8 +83,8 @@ individuati e le relazioni tra essi.
     \end{figure}
     \usecaseactors{\emph{Lambda}, \emph{bucket S3} di output delle immagini}
     \usecasepre{La funzione \emph{Lambda} è pronta per iniziare l'\emph{upload} dell'immagine e l'immagine convertita è salvata nella memoria temporanea della \emph{Lambda}}
-    \usecasedesc{La funzione \emph{Lambda} effettua il caricamento dell'immagine convertita nel \emph{Bucket S3} di output delle immagini, inserendola in una sottocartella contraddistinta dal nome del cliente che ha richiesto la conversione}
-    \usecasepost{L'immagine convertita è salvata nel \emph{Bucket S3} di \emph{output} delle immagini nella cartella del cliente che ha richiesto la conversione}
+    \usecasedesc{La funzione \emph{Lambda} effettua il caricamento dell'immagine convertita nel \emph{bucket S3} di output delle immagini, inserendola in una sottocartella contraddistinta dal nome del cliente che ha richiesto la conversione}
+    \usecasepost{L'immagine convertita è salvata nel \emph{bucket S3} di \emph{output} delle immagini nella cartella del cliente che ha richiesto la conversione}
     \label{uc:salvataggio-immagine}
 \end{usecase}
 \begin{usecase}{5}{Salvataggio caratteristiche della conversione}
@@ -93,7 +94,7 @@ individuati e le relazioni tra essi.
         \caption{UC$5$ - Salvataggio caratteristiche della conversione}
     \end{figure}
     \usecaseactors{\emph{Lambda}, tabella \emph{DynamoDB} contenente tutte le conversioni effettuate}
-    \usecasepre{La funzione Lambda è pronta per scrivere le caratteristiche
+    \usecasepre{La funzione \emph{Lambda} è pronta per scrivere le caratteristiche
         della conversione in una tabella di \emph{DynamoDB} dedicata}
     \usecasedesc{La funzione Lambda effettua il salvataggio delle caratteristiche della conversione nella tabella \emph{DynamoDB}, contraddistinta da un \emph{ID} univoco, il nome dell'immagine e il nome della configurazione utilizzata}
     \usecasepost{Le caratteristiche della conversione sono salvate nella tabella \emph{DynamoDB}}
@@ -102,8 +103,6 @@ individuati e le relazioni tra essi.
 
 \section{Tracciamento dei requisiti}
 
-Vengono di seguito presentati i requisiti individuati durante il progetto di
-stage.\\
 Sono stati individuati diversi tipi di requisiti e si è quindi fatto utilizzo di
 un codice identificativo per distinguerli, rappresentato di seguito:
 \begin{itemize}

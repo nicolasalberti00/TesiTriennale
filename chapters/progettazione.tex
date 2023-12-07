@@ -14,8 +14,8 @@ progetto di stage.
 
 \subsubsection*{Go}
 
-Go è un linguaggio di programmazione \emph{open source} sviluppato da
-\emph{Google} nel 2007. È un linguaggio compilato, staticamente tipizzato e
+\emph{Go} è un linguaggio di programmazione \emph{open source} sviluppato da
+\emph{Google} nel 2009. È un linguaggio compilato, staticamente tipizzato e
 fortemente tipizzato, con una sintassi simile a quella del linguaggio \emph{C}.
 Il linguaggio è stato progettato per semplificare la programmazione di sistemi
 distribuiti, con particolare attenzione alla concorrenza e alla
@@ -69,7 +69,7 @@ una seconda tabella \emph{DynamoDB}.
 
 \emph{AWS DynamoDB} è un database \emph{NoSQL} completamente gestito, che
 supporta strutture di dati di tipo documento e di tipo chiave-valore. Questo
-database supporta lettura e scrittura di dati senza degradamento delle
+\emph{database} supporta lettura e scrittura di dati senza degradamento delle
 performance generali del servizio. \\
 Nel progetto è stato utilizzato per salvare le informazioni legate alle
 conversioni effettuate, come ad esempio il nome dell'immagine convertita, il
@@ -82,7 +82,7 @@ convertita.
 
 \emph{AWS S3} è un servizio di \emph{storage} completamente gestito, che
 permette di salvare e recuperare dati da una posizione di memoria detta
-\emph{bucekt}. Supporta operazioni di lettura e scrittura di dati da parte di
+\emph{bucket}. Supporta operazioni di lettura e scrittura di dati da parte di
 altri servizi, ma può essere utilizzato per gestire \emph{backup} o per servire
 siti \emph{web} statici. \\
 Nel mio progetto è stato utilizzato per salvare le immagini da convertire e le
@@ -93,10 +93,7 @@ immagini convertite.
 \emph{AWS CloudWatch} è un servizio di monitoraggio e gestione delle risorse
 \emph{AWS} e delle applicazioni eseguite su \emph{AWS}. Il servizio permette di
 raccogliere e monitorare dati di interesse, visualizzandoli in modo sintetico e
-intuitivo. \\
-Nel progetto è stato utilizzato per monitorare le conversioni effettuate e
-raccogliere i \emph{log} presenti all'interno del codice eseguito dalla funzione
-\emph{Lambda}.
+intuitivo.
 
 \subsection{Versionamento}
 
@@ -116,12 +113,12 @@ gestito all'interno dell'ecosistema di \emph{AWS}, che permette di ospitare in m
 
 \subsubsection*{Libvips}
 
-\emph{Libvips} è una libreria \emph{open source} per la manipolazione di immagini
+\emph{Libvips} è una libreria \emph{open-source} per la manipolazione di immagini
 sviluppata in \emph{C}. La libreria è stata sviluppata per essere veloce e
 utilizzare poca memoria, ed è ampiamente utilizzata da numerose applicazioni
 \emph{web} e \emph{desktop}. \\
 Nel progetto è stata utilizzata per effettuare la conversione delle immagini
-di formato \emph{JPEG, WebP, PNG, SVG, TIFF e GIF} verso i formati \emph{JPEG} e
+di formato \emph{JPEG, WEBP, PNG, SVG, TIFF e GIF} verso i formati \emph{JPEG} e
 \emph{PNG}. La libreria permette di applicare all'immagine il profilo colore
 desiderato, permette la rotazione automatica di un'immagine seguendo
 l'orientamento presente dei \glsfirstoccur\gls{metadati}
@@ -140,14 +137,14 @@ la conversione, specificando il formato di output desiderato. \cite{ghostscript}
 
 \subsubsection*{Darktable}
 
-\emph{Darktable} è un'applicazione \emph{open source} per la gestione e la
+\emph{Darktable} è un'applicazione \emph{open-source} per la gestione e la
 modifica di immagini \emph{RAW}. Questa applicazione permette di convertire le
 immagini \emph{RAW} in immagini nei formati \emph{JPEG} e \emph{PNG}.
 L'applicazione presenta anche una interfaccia \glsfirstoccur\gls{CLI} che
 permette di effettuare il processo di conversione immagini richiamandola
 direttamente dal codice \emph{Go} del progetto.\\
 L'applicazione permette di applicare un profilo colore desiderato e di impostare
-la qualità dell'immagine convertita tramite un valore che varia da 0 a 100. \cite{darktable}
+la qualità dell'immagine convertita tramite un valore che varia da $0$ a $100$. \cite{darktable}
 
 \subsubsection*{Go-psd}
 
@@ -251,7 +248,8 @@ Il sistema prevede l'utilizzo di tre tipi di risorsa \emph{AWS}:
 \begin{itemize}
       \item \textbf{\emph{Lambda:}} è la funzione che si occupa di eseguire la
             \emph{business logic} del codice e di inviare e ricevere i dati dalle altre risorse
-            previste. Questa funzione si occupa di ;
+            previste. Questa funzione si occupa di eseguire la logica di
+            conversione delle immagini;
       \item \textbf{\emph{DynamoDB:}} è il database \emph{NoSQL} che si occupa di
             mantenere le informazioni legate alla configurazione delle conversioni da
             effettuare e quelle legate alle conversioni eseguite dalla \emph{Lambda};
