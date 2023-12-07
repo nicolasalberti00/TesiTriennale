@@ -1,5 +1,6 @@
 \chapter{Codifica}
 \label{cap:codifica}
+\renewcommand{\lstlistingname}{Listato}
 
 \intro{In questo capitolo viene descritto il processo di codifica del progetto di stage.}
 
@@ -52,8 +53,8 @@ modificare solamente il \emph{DAO}.
 \subsubsection{\emph{client configuration DAO}}
 
 Questo file contiene la struttura che definisce un \emph{DAO} per il recupero di
-una configurazione di un cliente. La struttura di una configurazione è la seguente:
-\begin{lstlisting}[language=go]
+una configurazione di un cliente. La definizione della struttura si trova nel listato \ref{client-conf}.
+\begin{lstlisting}[label=client-conf, caption={Struttura di una configurazione di un cliente},captionpos=b, language=go]
 type ClientConfiguration struct {
         ConfigurationName string `dynamodbav:"ConfigurationName"`
         Width   string `dynamodbav:"Width"`
@@ -103,9 +104,10 @@ in cui inserire le immagini. \\
 \subsubsection{\emph{image conversion jobs DAO}}
 
 Questo file contiene la struttura che definisce un \emph{DAO} per inserire le
-specifiche di una conversione oppure per aggiornarle. La struttura di una
-conversione è la seguente:
-\begin{lstlisting}[language=go]
+specifiche di una conversione oppure per aggiornarle. La struttura è quella
+definita nel listato \ref{job-dao}.
+\newpage
+\begin{lstlisting}[label=job-dao,caption=Struttura di un \emph{job} di una conversione,captionpos=b, language=go]
     type ImageConversionJob struct {
         ClientID       string `dynamodbav:"ClientID"`
         CreationDate   int64  `dynamodbav:"CreationDate"`
@@ -181,17 +183,14 @@ all'interno del file \emph{utils}, che definirò successivamente.
 Per eseguire il servizio appena descritto, è necessario un file che contiene la
 vera e propria esecuzione della \emph{Lambda}. Nel file \emph{main.go} oltre
 alle funzioni per gestire l'esecuzione del processo di conversione, è presente
-la struttura che definisce un evento di conversione, che viene qui
-rappresentata:
-\clearpage
-\begin{lstlisting}[language=go]
+la struttura che definisce un evento di conversione che viene definita nel
+listato \ref{conversion-event}.
+\begin{lstlisting}[label=conversion-event,caption={Struttura di un evento di conversione},captionpos=b, language=go]
     type ImageConversionEvent struct {
         Filename string `json:"filename"`
 	ClientID string `json:"clientID"`
     }
 \end{lstlisting}
-
-\captionof{lstlisting}{Struttura di un evento di conversione}
 
 Nello specifico vengono definiti:
 \begin{itemize}
